@@ -286,6 +286,16 @@ opp_shot_league %>%
        title = "Defensive Mirage Metrics for Full 2021-2022 NBA Season",
        caption = "Further Up & Right = More of a Mirage")
 
+# ggsave("thumbnail_mirage_metrics_historical.jpg",
+#        width = 5,
+#        height = 3.13,
+#        units = "in")
+# 
+# ggsave("full_mirage_metrics_historical.jpg",
+#        width = 16.67,
+#        height = 10.42,
+#        units = "in")
+
 ```
 
 These plots take inspiration from the [expected points added plots](https://www.nflfastr.com/articles/beginners_guide.html#team-tiers-plot){target="_blank"} popularized via the `nflfastr` package by [Ben Baldwin](https://mobile.twitter.com/benbbaldwin){target="_blank"}. <br>
