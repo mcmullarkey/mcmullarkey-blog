@@ -87,22 +87,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -124,7 +124,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 }</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">Michael Mullarkey’s Blog</span>
     </a>
   </div>
@@ -235,7 +235,9 @@ The following objects are masked from 'package:base':
 <div class="cell-output cell-output-stderr">
 <pre><code>here() starts at /Users/carbonite/Documents/github_r/mcmullarkey-blog</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quarto)     <span class="co"># For rendering</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)    <span class="co"># For string manipulation</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quarto)     <span class="co"># For rendering</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(elevators)  <span class="co"># For elevators data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="use-whisker-to-modify-template-.qmd-file-with-desired-values" class="level1">
@@ -245,11 +247,11 @@ The following objects are masked from 'package:base':
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  raw_qmd <span class="ot">&lt;-</span> <span class="fu">readLines</span>(file_name) <span class="co"># Reading in full .qmd file</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  filled_qmd <span class="ot">&lt;-</span> <span class="fu">whisker.render</span>(raw_qmd) <span class="co"># Replace {{}} with func value </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  filled_qmd <span class="ot">&lt;-</span> <span class="fu">whisker.render</span>(raw_qmd) <span class="co"># Replace {{}} with borough value </span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> filled_qmd,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">con =</span> <span class="fu">glue</span>(<span class="st">"{borough}_{today()}.qmd"</span>) <span class="co"># Programmatic naming so we don't</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">con =</span> <span class="fu">glue</span>(<span class="st">"{str_squish(borough)}_{today()}.qmd"</span>) <span class="co"># Programmatic naming so we don't</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># just overwrite the same file again and again when we iterate</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -262,7 +264,7 @@ The following objects are masked from 'package:base':
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>render_borough_template <span class="ot">&lt;-</span> <span class="cf">function</span>(borough, file_name) {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quarto_render</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">input =</span> <span class="fu">glue</span>(<span class="st">"{borough}_{today()}.qmd"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">input =</span> <span class="fu">glue</span>(<span class="st">"{str_squish(borough)}_{today()}.qmd"</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -318,7 +320,7 @@ The following objects are masked from 'package:base':
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.qmd[39m[22m
+<pre><code>[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.qmd[39m[22m
 [31m
 
 processing file: Manhattan_2022-10-25.qmd
@@ -326,33 +328,39 @@ processing file: Manhattan_2022-10-25.qmd
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |......                                                                |   9%
+  |........                                                              |  11%
    inline R code fragments
 
 
   |                                                                            
-  |.............                                                         |  18%
-label: unnamed-chunk-1
-
-  |                                                                            
-  |...................                                                   |  27%
-  ordinary text without R code
-
-
-  |                                                                            
-  |.........................                                             |  36%
-label: unnamed-chunk-2 (with options) 
-List of 1
+  |................                                                      |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
  $ message: logi FALSE
+ $ results: logi FALSE
 
 
   |                                                                            
-  |................................                                      |  45%
+  |.......................                                               |  33%
   ordinary text without R code
 
 
   |                                                                            
-  |......................................                                |  55%
+  |...............................                                       |  44%
+label: unnamed-chunk-2 (with options) 
+List of 2
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+[39m
+  |                                                                            
+  |.......................................                               |  56%
+  ordinary text without R code
+
+
+  |                                                                            
+  |...............................................                       |  67%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ message: logi FALSE
@@ -361,27 +369,13 @@ List of 2
 [31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 [39m
   |                                                                            
-  |.............................................                         |  64%
+  |......................................................                |  78%
   ordinary text without R code
 
 
   |                                                                            
-  |...................................................                   |  73%
-label: unnamed-chunk-4 (with options) 
-List of 2
- $ message: logi FALSE
- $ warning: logi FALSE
-
-[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-[39m
-  |                                                                            
-  |.........................................................             |  82%
-  ordinary text without R code
-
-
-  |                                                                            
-  |................................................................      |  91%
-label: unnamed-chunk-5
+  |..............................................................        |  89%
+label: unnamed-chunk-4
 
   |                                                                            
   |......................................................................| 100%
@@ -401,12 +395,12 @@ label: unnamed-chunk-5
 8: Removed 117 rows containing missing values (geom_point). 
 [39m[1m[34m[2/2] index.qmd[39m[22m
 
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html[39m
-Output created: ../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/borough_template.html[39m
+Output created: ../../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.html
 
-[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.qmd[39m[22m
+[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.qmd[39m[22m
 [31m
 
 processing file: Bronx_2022-10-25.qmd
@@ -414,33 +408,39 @@ processing file: Bronx_2022-10-25.qmd
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |......                                                                |   9%
+  |........                                                              |  11%
    inline R code fragments
 
 
   |                                                                            
-  |.............                                                         |  18%
-label: unnamed-chunk-1
-
-  |                                                                            
-  |...................                                                   |  27%
-  ordinary text without R code
-
-
-  |                                                                            
-  |.........................                                             |  36%
-label: unnamed-chunk-2 (with options) 
-List of 1
+  |................                                                      |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
  $ message: logi FALSE
+ $ results: logi FALSE
 
 
   |                                                                            
-  |................................                                      |  45%
+  |.......................                                               |  33%
   ordinary text without R code
 
 
   |                                                                            
-  |......................................                                |  55%
+  |...............................                                       |  44%
+label: unnamed-chunk-2 (with options) 
+List of 2
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+[39m
+  |                                                                            
+  |.......................................                               |  56%
+  ordinary text without R code
+
+
+  |                                                                            
+  |...............................................                       |  67%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ message: logi FALSE
@@ -449,27 +449,13 @@ List of 2
 [31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 [39m
   |                                                                            
-  |.............................................                         |  64%
+  |......................................................                |  78%
   ordinary text without R code
 
 
   |                                                                            
-  |...................................................                   |  73%
-label: unnamed-chunk-4 (with options) 
-List of 2
- $ message: logi FALSE
- $ warning: logi FALSE
-
-[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-[39m
-  |                                                                            
-  |.........................................................             |  82%
-  ordinary text without R code
-
-
-  |                                                                            
-  |................................................................      |  91%
-label: unnamed-chunk-5
+  |..............................................................        |  89%
+label: unnamed-chunk-4
 
   |                                                                            
   |......................................................................| 100%
@@ -489,12 +475,12 @@ label: unnamed-chunk-5
 8: Removed 25 rows containing missing values (geom_point). 
 [39m[1m[34m[2/2] index.qmd[39m[22m
 
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html[39m
-Output created: ../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/borough_template.html[39m
+Output created: ../../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.html
 
-[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.qmd[39m[22m
+[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.qmd[39m[22m
 [31m
 
 processing file: Brooklyn_2022-10-25.qmd
@@ -502,33 +488,39 @@ processing file: Brooklyn_2022-10-25.qmd
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |......                                                                |   9%
+  |........                                                              |  11%
    inline R code fragments
 
 
   |                                                                            
-  |.............                                                         |  18%
-label: unnamed-chunk-1
-
-  |                                                                            
-  |...................                                                   |  27%
-  ordinary text without R code
-
-
-  |                                                                            
-  |.........................                                             |  36%
-label: unnamed-chunk-2 (with options) 
-List of 1
+  |................                                                      |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
  $ message: logi FALSE
+ $ results: logi FALSE
 
 
   |                                                                            
-  |................................                                      |  45%
+  |.......................                                               |  33%
   ordinary text without R code
 
 
   |                                                                            
-  |......................................                                |  55%
+  |...............................                                       |  44%
+label: unnamed-chunk-2 (with options) 
+List of 2
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+[39m
+  |                                                                            
+  |.......................................                               |  56%
+  ordinary text without R code
+
+
+  |                                                                            
+  |...............................................                       |  67%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ message: logi FALSE
@@ -537,27 +529,13 @@ List of 2
 [31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 [39m
   |                                                                            
-  |.............................................                         |  64%
+  |......................................................                |  78%
   ordinary text without R code
 
 
   |                                                                            
-  |...................................................                   |  73%
-label: unnamed-chunk-4 (with options) 
-List of 2
- $ message: logi FALSE
- $ warning: logi FALSE
-
-[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-[39m
-  |                                                                            
-  |.........................................................             |  82%
-  ordinary text without R code
-
-
-  |                                                                            
-  |................................................................      |  91%
-label: unnamed-chunk-5
+  |..............................................................        |  89%
+label: unnamed-chunk-4
 
   |                                                                            
   |......................................................................| 100%
@@ -573,12 +551,12 @@ label: unnamed-chunk-5
 4: Removed 51 rows containing missing values (geom_point). 
 [39m[1m[34m[2/2] index.qmd[39m[22m
 
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html[39m
-Output created: ../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/borough_template.html[39m
+Output created: ../../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.html
 
-[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.qmd[39m[22m
+[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.qmd[39m[22m
 [31m
 
 processing file: Queens_2022-10-25.qmd
@@ -586,33 +564,39 @@ processing file: Queens_2022-10-25.qmd
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |......                                                                |   9%
+  |........                                                              |  11%
    inline R code fragments
 
 
   |                                                                            
-  |.............                                                         |  18%
-label: unnamed-chunk-1
-
-  |                                                                            
-  |...................                                                   |  27%
-  ordinary text without R code
-
-
-  |                                                                            
-  |.........................                                             |  36%
-label: unnamed-chunk-2 (with options) 
-List of 1
+  |................                                                      |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
  $ message: logi FALSE
+ $ results: logi FALSE
 
 
   |                                                                            
-  |................................                                      |  45%
+  |.......................                                               |  33%
   ordinary text without R code
 
 
   |                                                                            
-  |......................................                                |  55%
+  |...............................                                       |  44%
+label: unnamed-chunk-2 (with options) 
+List of 2
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+[39m
+  |                                                                            
+  |.......................................                               |  56%
+  ordinary text without R code
+
+
+  |                                                                            
+  |...............................................                       |  67%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ message: logi FALSE
@@ -621,27 +605,13 @@ List of 2
 [31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
 [39m
   |                                                                            
-  |.............................................                         |  64%
+  |......................................................                |  78%
   ordinary text without R code
 
 
   |                                                                            
-  |...................................................                   |  73%
-label: unnamed-chunk-4 (with options) 
-List of 2
- $ message: logi FALSE
- $ warning: logi FALSE
-
-[31m`geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-[39m
-  |                                                                            
-  |.........................................................             |  82%
-  ordinary text without R code
-
-
-  |                                                                            
-  |................................................................      |  91%
-label: unnamed-chunk-5
+  |..............................................................        |  89%
+label: unnamed-chunk-4
 
   |                                                                            
   |......................................................................| 100%
@@ -657,12 +627,12 @@ label: unnamed-chunk-5
 4: Removed 27 rows containing missing values (geom_point). 
 [39m[1m[34m[2/2] index.qmd[39m[22m
 
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html[39m
-Output created: ../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/borough_template.html[39m
+Output created: ../../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.html
 
-[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.qmd[39m[22m
+[1m[34m[1/2] posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten Island_2022-10-25.qmd[39m[22m
 [31m
 
 processing file: Staten-Island_2022-10-25.rmarkdown
@@ -670,33 +640,39 @@ processing file: Staten-Island_2022-10-25.rmarkdown
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |......                                                                |   9%
+  |........                                                              |  11%
    inline R code fragments
 
 
   |                                                                            
-  |.............                                                         |  18%
-label: unnamed-chunk-1
-
-  |                                                                            
-  |...................                                                   |  27%
-  ordinary text without R code
-
-
-  |                                                                            
-  |.........................                                             |  36%
-label: unnamed-chunk-2 (with options) 
-List of 1
+  |................                                                      |  22%
+label: unnamed-chunk-1 (with options) 
+List of 2
  $ message: logi FALSE
+ $ results: logi FALSE
 
 
   |                                                                            
-  |................................                                      |  45%
+  |.......................                                               |  33%
   ordinary text without R code
 
 
   |                                                                            
-  |......................................                                |  55%
+  |...............................                                       |  44%
+label: unnamed-chunk-2 (with options) 
+List of 2
+ $ message: logi FALSE
+ $ warning: logi FALSE
+
+[31m`geom_smooth()` using method = 'loess' and formula 'y ~ x'
+[39m
+  |                                                                            
+  |.......................................                               |  56%
+  ordinary text without R code
+
+
+  |                                                                            
+  |...............................................                       |  67%
 label: unnamed-chunk-3 (with options) 
 List of 2
  $ message: logi FALSE
@@ -705,27 +681,13 @@ List of 2
 [31m`geom_smooth()` using method = 'loess' and formula 'y ~ x'
 [39m
   |                                                                            
-  |.............................................                         |  64%
+  |......................................................                |  78%
   ordinary text without R code
 
 
   |                                                                            
-  |...................................................                   |  73%
-label: unnamed-chunk-4 (with options) 
-List of 2
- $ message: logi FALSE
- $ warning: logi FALSE
-
-[31m`geom_smooth()` using method = 'loess' and formula 'y ~ x'
-[39m
-  |                                                                            
-  |.........................................................             |  82%
-  ordinary text without R code
-
-
-  |                                                                            
-  |................................................................      |  91%
-label: unnamed-chunk-5
+  |..............................................................        |  89%
+label: unnamed-chunk-4
 
   |                                                                            
   |......................................................................| 100%
@@ -741,10 +703,10 @@ label: unnamed-chunk-5
 4: Removed 1 rows containing missing values (geom_point). 
 [39m[1m[34m[2/2] index.qmd[39m[22m
 
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html[39m
-[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html[39m
-Output created: ../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html</code></pre>
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/create_all_borough_reports.html[39m
+[33mWARNING: Unable to read listing item description from posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/borough_template.html[39m
+Output created: ../../../../docs/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten Island_2022-10-25.html</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
