@@ -46,7 +46,7 @@
     "href": "index.html",
     "title": "Rigorous Data Science, Translated for Humans",
     "section": "",
-    "text": "code\n\n\nanalysis\n\n\nnba\n\n\n\n\n\n\n\n\n\n\n\nOct 17, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\nNo matching items"
+    "text": "Michael Mullarkey\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLast generated on: r Sys.Date()\n\n\n\n\n\n\n\n\n\nOct 25, 2022\n\n\nMike Mahoney\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nR\n\n\nQuarto\n\n\nReport-Making\n\n\n\n\nCreate Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache\n\n\n\n\n\n\nOct 17, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\ncode\n\n\nanalysis\n\n\nnba\n\n\n\n\n\n\n\n\n\n\n\nOct 17, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -54,5 +54,180 @@
     "title": "About",
     "section": "",
     "text": "About this blog"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/index.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/index.html",
+    "title": "Parameterized Reports in Disguise",
+    "section": "",
+    "text": "At one of my jobs we ran ~monthly pilot studies. Strong performance in each pilot was key to securing business long-term. Naturally, knowing how well we were doing in the pilot as quickly as possible was top priority. The pilot report could help identify potential pain points, let everyone breathe a sigh of relief, or1 a bit of both.   One problem: pilot reports before I arrived were redone by hand for every pilot. While some of the code from previous pilots could be copy/pasted that introduced a whole new set of issues. This ad-hoc approach meant each pilot report took almost a full work week to build.2   After I introduced ultra-parameterized reports, we were able to provide pilot reports the moment the data became available.3 Other decision-makers could react faster, and the company’s capacity to capitalize on the report grew a ton."
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/index.html#example-script-without-parameters",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/index.html#example-script-without-parameters",
+    "title": "Parameterized Reports in Disguise",
+    "section": "Example Script Without Parameters",
+    "text": "Example Script Without Parameters\nHere’s a script that gives you an incredible amount of information on elevators in New York but isn’t parameterized yet.\n---\ntitle: \"Cool graphs about elevators\"\nauthor: Mike Mahoney\nsubtitle: \"Last generated on:\"\ndate: today\nformat:\n  html:\n    echo: false\n---\n\n```{r}\n#| message: false\nlibrary(elevators)\nlibrary(ggplot2)\ntheme_set(theme_minimal())\n```\n\n## Speed over time\n\n```{r}\n#| message: false\n#| warning: false\nelevators |>\n  ggplot(aes(approval_date, speed_fpm)) +\n  geom_point(alpha = 0.05) +\n  geom_smooth() +\n  scale_y_log10()\n```\n\n## Speed versus capacity\n\n```{r}\n#| message: false\n#| warning: false\nelevators |>\n  ggplot(aes(capacity_lbs, speed_fpm)) +\n  geom_point(alpha = 0.05) +\n  geom_smooth() +\n  scale_y_log10()\n```\n\n## Where in the world did all my elevators go\n\n```{r}\nelevators |>\n  ggplot(aes(longitude, latitude)) + \n  geom_point(alpha = 0.05) +\n  coord_sf()\n```"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/index.html#example-script-with-parameters",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/index.html#example-script-with-parameters",
+    "title": "Parameterized Reports in Disguise",
+    "section": "Example Script With Parameters",
+    "text": "Example Script With Parameters\nAnd here’s a parameterized script that gives you an incredible amount of information on elevators specifically in Manhattan.   The key difference here isn’t so much that we can get info on Manhattan, it’s that we can swap out “Brooklyn” for “Manhattan” in about 0.2 seconds to re-run the report. A lot less manual work than copy-pasting Brooklyn for Manhattan everywhere and hoping we didn’t miss anything!  \n---\ntitle: \"Cool graphs about elevators\"\nauthor: Mike Mahoney\nsubtitle: \"Last generated on: 2022-10-25\"\ndate: today\nformat: \n  html: \n    echo: false\nparams: \n  borough: \"Manhattan\"\n---\n\n```{r}\n#| message: false\nlibrary(elevators)\n\nif (!is.na(params$borough) && params$borough != \"NA\") {\n  elevators <- elevators[elevators$borough == params$borough, ]\n}\nif (nrow(elevators) == 0) {\n  stop(\"No elevators were selected. Did you misspell `borough`?\")\n}\n\nlibrary(ggplot2)\ntheme_set(theme_minimal())\n```\n\n## Speed over time\n\n```{r}\n#| message: false\n#| warning: false\nelevators |> \n  ggplot(aes(approval_date, speed_fpm)) + \n  geom_point(alpha = 0.05) + \n  geom_smooth() + \n  scale_y_log10()\n```\n\n## Speed versus capacity\n\n```{r}\n#| message: false\n#| warning: false\nelevators |> \n  ggplot(aes(capacity_lbs, speed_fpm)) + \n  geom_point(alpha = 0.05) + \n  geom_smooth() + \n  scale_y_log10()\n```\n\n## Where in the world did all my elevators go\n\n```{r}\nelevators |> \n  ggplot(aes(longitude, latitude)) + \n  geom_point(alpha = 0.05) + \n  coord_sf()\n```"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/index.html#we-were-promised-disguises",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/index.html#we-were-promised-disguises",
+    "title": "Parameterized Reports in Disguise",
+    "section": "We Were Promised Disguises",
+    "text": "We Were Promised Disguises\nThis is where mustache starts providing the “ultra” in “ultra-parameterized.” Using the whisker package implementation in R, we can create a version of the script that will allow us to programmatically specify the borough during report creation.   The only difference between this version and the parameterized report is replacing “Manhattan” with “{{ borough }}”\n---\ntitle: \"Cool graphs about elevators\"\nauthor: Mike Mahoney\nsubtitle: \"Last generated on: 2022-10-25\"\ndate: today\nformat: \n  html: \n    echo: false\nparams: \n  borough: {{ borough }}\n---\n\n```{r}\n#| message: false\nlibrary(elevators)\n\nif (!is.na(params$borough) && params$borough != \"NA\") {\n  elevators <- elevators[elevators$borough == params$borough, ]\n}\nif (nrow(elevators) == 0) {\n  stop(\"No elevators were selected. Did you misspell `borough`?\")\n}\n\nlibrary(ggplot2)\ntheme_set(theme_minimal())\n```\n\n## Speed over time\n\n```{r}\n#| message: false\n#| warning: false\nelevators |> \n  ggplot(aes(approval_date, speed_fpm)) + \n  geom_point(alpha = 0.05) + \n  geom_smooth() + \n  scale_y_log10()\n```\n\n## Speed versus capacity\n\n```{r}\n#| message: false\n#| warning: false\nelevators |> \n  ggplot(aes(capacity_lbs, speed_fpm)) + \n  geom_point(alpha = 0.05) + \n  geom_smooth() + \n  scale_y_log10()\n```\n\n## Where in the world did all my elevators go\n\n```{r}\nelevators |> \n  ggplot(aes(longitude, latitude)) + \n  geom_point(alpha = 0.05) + \n  coord_sf()\n```"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html",
+    "title": "Cool graphs about elevators",
+    "section": "",
+    "text": "── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6      ✔ purrr   0.3.5 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.4.1 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nAttaching package: 'rvest'\n\n\nThe following object is masked from 'package:readr':\n\n    guess_encoding\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\nLoading required package: reactable\n\n\nAttaching package: 'reactablefmtr'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    margin\n\n\nLoading required package: sysfonts\n\nLoading required package: showtextdb"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#speed-over-time",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#speed-over-time",
+    "title": "Cool graphs about elevators",
+    "section": "Speed over time",
+    "text": "Speed over time"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#speed-versus-capacity",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#speed-versus-capacity",
+    "title": "Cool graphs about elevators",
+    "section": "Speed versus capacity",
+    "text": "Speed versus capacity"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "title": "Cool graphs about elevators",
+    "section": "Where in the world did all my elevators go",
+    "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html",
+    "title": "Cool graphs about elevators",
+    "section": "",
+    "text": "── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6      ✔ purrr   0.3.5 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.4.1 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nAttaching package: 'rvest'\n\n\nThe following object is masked from 'package:readr':\n\n    guess_encoding\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\nLoading required package: reactable\n\n\nAttaching package: 'reactablefmtr'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    margin\n\n\nLoading required package: sysfonts\n\nLoading required package: showtextdb"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#speed-over-time",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#speed-over-time",
+    "title": "Cool graphs about elevators",
+    "section": "Speed over time",
+    "text": "Speed over time"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#speed-versus-capacity",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#speed-versus-capacity",
+    "title": "Cool graphs about elevators",
+    "section": "Speed versus capacity",
+    "text": "Speed versus capacity"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "title": "Cool graphs about elevators",
+    "section": "Where in the world did all my elevators go",
+    "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html",
+    "title": "Cool graphs about elevators",
+    "section": "",
+    "text": "── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6      ✔ purrr   0.3.5 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.4.1 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nAttaching package: 'rvest'\n\n\nThe following object is masked from 'package:readr':\n\n    guess_encoding\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\nLoading required package: reactable\n\n\nAttaching package: 'reactablefmtr'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    margin\n\n\nLoading required package: sysfonts\n\nLoading required package: showtextdb"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#speed-over-time",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#speed-over-time",
+    "title": "Cool graphs about elevators",
+    "section": "Speed over time",
+    "text": "Speed over time"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#speed-versus-capacity",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#speed-versus-capacity",
+    "title": "Cool graphs about elevators",
+    "section": "Speed versus capacity",
+    "text": "Speed versus capacity"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "title": "Cool graphs about elevators",
+    "section": "Where in the world did all my elevators go",
+    "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html",
+    "title": "Cool graphs about elevators",
+    "section": "",
+    "text": "── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6      ✔ purrr   0.3.5 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.4.1 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nAttaching package: 'rvest'\n\n\nThe following object is masked from 'package:readr':\n\n    guess_encoding\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\nLoading required package: reactable\n\n\nAttaching package: 'reactablefmtr'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    margin\n\n\nLoading required package: sysfonts\n\nLoading required package: showtextdb"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#speed-over-time",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#speed-over-time",
+    "title": "Cool graphs about elevators",
+    "section": "Speed over time",
+    "text": "Speed over time"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#speed-versus-capacity",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#speed-versus-capacity",
+    "title": "Cool graphs about elevators",
+    "section": "Speed versus capacity",
+    "text": "Speed versus capacity"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "title": "Cool graphs about elevators",
+    "section": "Where in the world did all my elevators go",
+    "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html",
+    "title": "Cool graphs about elevators",
+    "section": "",
+    "text": "── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6      ✔ purrr   0.3.5 \n✔ tibble  3.1.8      ✔ dplyr   1.0.10\n✔ tidyr   1.2.1      ✔ stringr 1.4.1 \n✔ readr   2.1.3      ✔ forcats 0.5.2 \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n\nAttaching package: 'rvest'\n\n\nThe following object is masked from 'package:readr':\n\n    guess_encoding\n\n\n\nAttaching package: 'scales'\n\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\nLoading required package: reactable\n\n\nAttaching package: 'reactablefmtr'\n\n\nThe following object is masked from 'package:ggplot2':\n\n    margin\n\n\nLoading required package: sysfonts\n\nLoading required package: showtextdb"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#speed-over-time",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#speed-over-time",
+    "title": "Cool graphs about elevators",
+    "section": "Speed over time",
+    "text": "Speed over time"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#speed-versus-capacity",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#speed-versus-capacity",
+    "title": "Cool graphs about elevators",
+    "section": "Speed versus capacity",
+    "text": "Speed versus capacity"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html#where-in-the-world-did-all-my-elevators-go",
+    "title": "Cool graphs about elevators",
+    "section": "Where in the world did all my elevators go",
+    "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_20_ultra_parameterized_reports/index.html#creating-a-function-to-run-render-many-reports",
+    "href": "posts/2022_10_20_ultra_parameterized_reports/index.html#creating-a-function-to-run-render-many-reports",
+    "title": "Parameterized Reports in Disguise",
+    "section": "Creating a Function to Run + Render Many Reports",
+    "text": "Creating a Function to Run + Render Many Reports\nWe now need another file that will replace “{{ borough }}” with the appropriate boroughs and render each report.\n---\ntitle: \"Create All Borough Reports\"\nauthor: \"Michael Mullarkey\"\n---\n\n# Load Packages\n\n```{r}\n\nlibrary(whisker)    # For replacing {{ }} text\nlibrary(tidyverse)  # For function creation + data wrangling\nlibrary(glue)       # For programmatic file naming\nlibrary(lubridate)  # For today()\nlibrary(here)       # For better file paths\nlibrary(quarto)     # For rendering\nlibrary(elevators)  # For elevators data\n\n```\n\n# Use Whisker to Modify Template .qmd File with Desired Values\n\n```{r}\n\nuse_borough_template <- function(borough, file_name) {\n  \n  raw_qmd <- readLines(file_name) # Reading in full .qmd file\n  \n  filled_qmd <- whisker.render(raw_qmd) # Replace {{}} with borough value \n  \n  writeLines(\n    text = filled_qmd,\n    con = glue(\"{borough}_{today()}.qmd\") # Programmatic naming so we don't\n    # just overwrite the same file again and again when we iterate\n  )\n    \n}\n\n```\n\n# Render .qmd Files Using Programmatic Names\n\n```{r}\n\nrender_borough_template <- function(borough, file_name) {\n  \n  quarto_render(\n    input = glue(\"{borough}_{today()}.qmd\")\n  )\n  \n}\n\n```\n\n# Put Both Functions Together So We Only Have to Make One Function Call\n\n```{r}\n\ncreate_borough_report <- function(borough, file_name) {\n  \n  use_borough_template(borough = borough, file_name = file_name)\n  \n  render_borough_template(borough = borough, file_name = file_name)\n  \n}\n\n```\n\n# Testing the report creation once before going on to programmatic\n\n```{r}\n\n# Testing the report creation once before going on to programmatic\n\n# create_borough_report(borough = \"Manhattan\", file_name = \"borough_template.qmd\")\n\n```\n\n# Creating a dataframe of information to map over\n\n```{r}\n\n# Create data frame to map over for borough reports\n\nall_boroughs <- elevators::elevators %>% \n  distinct(borough) %>% \n  deframe()\n\nfile_name_vec <- rep(\"borough_template.qmd\", length(all_boroughs))\n\nboroughs_report_df <- tibble(all_boroughs, file_name_vec)\n\n```\n\n# Map over all borough reports\n\n```{r}\n\n# This also could be walk because we're really just looking for side effects!\n\n# Not necessary to do pmap for this example but it's more extensible to if you\n# need to use more than 2 paramters (otherwise can use map or map2)\n\npmap(\n  boroughs_report_df,\n  ~create_borough_report(\n    borough = ..1,\n    file_name = ..2\n  )\n)\n\n```\nOnce you have a file like this that can programmatically replace your parameters and render reports you’re good to go! If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.9"
   }
 ]

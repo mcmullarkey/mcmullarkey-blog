@@ -1,0 +1,95 @@
+---
+title: "Parameterized Reports in Disguise"
+description: "Create Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache"
+author: "Michael Mullarkey"
+date: "2022-10-17"
+format: 
+  html:
+    code-fold: true
+    toc: true
+categories: [R, Quarto, Report-Making]
+engine: knitr
+---
+
+# Why Should I Care?
+
+## Quick Case Study
+
+### Reducing Pilot Report Latency by 400% Using Ultra-Parameterized Reports
+
+At one of my jobs we ran ~monthly pilot studies. Strong performance in each pilot was key to securing business long-term. Naturally, knowing how well we were doing in the pilot as quickly as possible was top priority. The pilot report could help identify potential pain points, let everyone breathe a sigh of relief, or^[most likely!] a bit of both. <br>
+<br>
+One problem: pilot reports before I arrived were redone by hand for every pilot. While some of the code from previous pilots could be copy/pasted that introduced a whole new set of issues. This ad-hoc approach meant each pilot report took almost a full work week to build.^[Including stakeholder back and forth on custom parts of the report]
+<br>
+<br>
+After I introduced ultra-parameterized reports, we were able to provide pilot reports the moment the data became available.^[within 1 day of the pilot starting] Other decision-makers could react faster, and the company's capacity to capitalize on the report grew a ton. 
+
+# The Inevitablity of Reports
+
+I believe three things^[Ok, maybe some other stuff too but I'm trying to keep the non-footnotes part of the post focused!] are true: <br>
+<br>
+1. Data practitioners need to make reports.^[If you have somehow had an entire career trajectory where you haven't had to make reports for stakeholders, congrats! Seems outside the norm to me in 2022, though who knows how well this will age]<br>
+2. Data practitioners would rather do^[almost] anything other than copy and paste info <br>
+3. You shouldn't need to do #2 to accomplish #1
+
+# "Vanilla" Parameterized Reports
+
+Creating a [parameterized report with Quarto](https://quarto.org/docs/computations/parameters.html){target="_blank"} can be a lifesaver when stakeholders change their minds. <br>
+<br>
+Gone are the days of having to go in manually to change a key variable throughout the script.^[Yes, this includes the risky "Find and Replace All" strategy] Instead, you can just change the parameter in the .yml chunk at the start of the document. <br>
+<br>
+Let's look at an example from an [excellent blog post on parameterized reports in Quarto](https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/){target="_blank"} by [Mike Mahoney](https://www.mm218.dev/){target="_blank"}.
+
+## Example Script Without Parameters
+
+Here's a script that gives you an incredible amount of information on elevators in New York but isn't parameterized yet.
+
+{{< include ./starter_example/include >}}
+
+## Example Script With Parameters
+
+And here's a parameterized script that gives you an incredible amount of information on elevators specifically in Manhattan. <br>
+<br>
+The key difference here isn't so much that we can get info on Manhattan, it's that we can swap out "Brooklyn" for "Manhattan" in about 0.2 seconds to re-run the report. A lot less manual work than copy-pasting Brooklyn for Manhattan everywhere and hoping we didn't miss anything! <br>
+<br>
+
+{{< include ./vanilla_parameter_example/include >}}
+
+# Parameterize for Peace of Mind
+
+If there's any chance stakeholders will change their minds about key aspects of the analysis, I think it's worth parameterizing the report.^[Yes, I definitely lean toward parameterization, maybe too much!]
+
+I think folks should be allowed to change their minds, and "vanilla" parameterizing makes your reports process more robust to changing demands. They also save us time and energy during periods when timelines are tight.
+
+# Ultra-Parameterized Reports
+
+And here's the thing: Replacing "Manhattan" with "Brooklyn" is still manual work. I don't think we should over-optimize processes, and if you only need to make occasional manual edits to your parameters that's great. <br>
+<br>
+But what if you have to make an elevator report for 1,000 cities around the world? <br>
+<br>
+Even if manually updating each file only takes 0.2 seconds, you'd still be manually typing for an hour andd forty minutes. Plus, if you do a good enough job they might want that report every week, and all of a sudden parameterized reports feel like a drop of water on a raging fire.
+
+## We Were Promised Disguises
+
+This is where [`mustache`](https://mustache.github.io/){target="_blank"} starts providing the "ultra" in "ultra-parameterized." Using the [`whisker`](https://github.com/edwindj/whisker){target="_blank"} package implementation in R, we can create a version of the script that will allow us to programmatically specify the borough during report creation. <br>
+<br>
+The only difference between this version and the parameterized report is replacing "Manhattan" with "{{ borough }}"
+
+{{< include ./ultra_parameter_example/include >}}
+
+## Creating a Function to Run + Render Many Reports
+
+We now need another file that will replace "{{ borough }}" with the appropriate boroughs and render each report. 
+
+{{< include ./ultra_parameter_example/quarto_files/include >}}
+
+Once you have a file like this that can programmatically replace your parameters and render reports you're good to go! If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.^[I do more file path work using glue in other circumstances, and doing that wasn't playing nice with the Quarto blog structure. Another adventure for another time!]
+
+# Conclusion
+
+This is one proof-of-concept for ultra-parameterized reports, and I've extended parameterized reports on the job in other ways. I've found working with databases + conditional evaluation of chunks particularly helpful for creating bespoke seeming reports in a programmatic way. <br>
+<br>
+If you're curious about those approaches and haven't already opened [Mike Mahoney's blog post](https://www.mm218.dev/posts/2022-08-04-how-to-use-quarto-for-parameterized-reporting/){target="_blank"} please do that now! He discusses those extensions among others, and everything you can do with a parameterized report can be done with an ultra-parameterized report. <br>
+<br>
+Also, huge shout outs to [Jacqueline Nolis](https://twitter.com/skyetetra){target="_blank"} and [Tom Mock](https://twitter.com/thomas_mock){target="_blank"} who provided resources when I was first trying to improve report building at my job. If you have questions about this approach feel free to reach out to me on [Twitter!](https://twitter.com/mcmullarkey){target="_blank"}
+
