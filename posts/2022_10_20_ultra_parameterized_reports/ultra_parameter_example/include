@@ -13,6 +13,7 @@ params:
 
 ```{{r}}
 #| message: false
+#| results: false
 library(elevators)
 
 if (!is.na(params$borough) && params$borough != "NA") {

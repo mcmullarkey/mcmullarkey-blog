@@ -83,7 +83,9 @@ We now need another file that will replace "{{ borough }}" with the appropriate 
 
 {{< include ./ultra_parameter_example/quarto_files/include >}}
 
-Once you have a file like this that can programmatically replace your parameters and render reports you're good to go! If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.^[I do more file path work using glue in other circumstances, and doing that wasn't playing nice with the Quarto blog structure. Another adventure for another time!]
+Once you have a file like this that can programmatically replace your parameters and render reports you're good to go! You can check out the  <br>
+<br>
+If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.^[I do more file path work using glue in other circumstances, and doing that wasn't playing nice with the Quarto blog structure. Another adventure for another time!]
 
 # Conclusion
 
