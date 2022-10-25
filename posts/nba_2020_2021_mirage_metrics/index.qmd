@@ -1,5 +1,6 @@
 ---
-title: "NBA Mirage Metrics:<br/>Looking for the Unsustainable"
+title: "NBA Mirage Metrics"
+description: "Looking for the Unsustainable"
 author: "Michael Mullarkey"
 date: "2022-10-17"
 format: 

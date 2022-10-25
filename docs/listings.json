@@ -2,13 +2,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/create_borough_reports.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Brooklyn_2022-10-25.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Staten Island_2022-10-25.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Queens_2022-10-25.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Bronx_2022-10-25.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/borough_template.html",
-      "/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/Manhattan_2022-10-25.html",
       "/posts/2022_10_20_ultra_parameterized_reports/index.html",
       "/posts/nba_2020_2021_mirage_metrics/index.html"
     ]
