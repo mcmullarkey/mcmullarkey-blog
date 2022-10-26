@@ -1,0 +1,69 @@
+---
+title: "How Do I Get People to Pay Attention to My Data Deliverables?"
+description: "Creating an Interactive, Participatory System"
+author: "Michael Mullarkey"
+date: "2022-10-26"
+format: 
+  html:
+    code-fold: true
+    toc: true
+categories: [Case Study, Stakeholders]
+engine: knitr
+---
+
+# Why Should I Care?
+
+Everyone wants their work to be recognized. Recognition can come in a lot of different forms, and none^[Ok, almost none, sometimes people will recognize the effort you made even if they don't look at the deliverable] of them are possible if people don't pay attention to your work. <br>
+<br>
+I've come up with a system that has effectively captured my stakeholders' attention. There are important caveats,^[We'll have a whole section at the end!] and I thought it might be useful to share my approach. Please feel free to try, remix, and [let me know how it goes](https://twitter.com/mcmullarkey){target="_blank"}!
+
+# The Data Practicioner's Dilemma
+
+Data practitioners have to thread a needle when creating deliverables. We want the rigor in our process to shine through without creating a glare that makes it difficult to see the core content. <br>
+<br>
+There are lots of great resources on how to balance this trade-off effectively. I'm partial to the [Build a Careeer in Data Science podcast episode](https://open.spotify.com/episode/2pCy1A4NGUdNuAp6XxYMSg?si=5534509eb1c74945){target="_blank"} on stakeholders.^[And also the chapter in the accompanying book at bestboook.cool (That's a real link I promise, it will get you 40% off too!)] <br>
+<br>
+This post nods at this dilemma, but actually tackles a problem even further upstream: How do you get people to even open the data deliverable in the first place?
+
+# Is This a Problem?
+
+I can understand if data practitioners feel like this isn't their problem to solve. In some cases it isn't! And I've found that having more eyes on my deliverables has benefited me a bunch. <br>
+<br>
+First, making your deliverable more fun for people who are required to consume it will likely still help you. Having your work be something people look forward to definitely isn't going to hurt! And if they enjoy themselves they might spend more time considering the results + providing effective feedback. <br>
+<br>
+And if you make people who aren't required to consume your data deliverables curious about them, you might get key insights you wouldn't have otherwise. For example, one of my cases study's recommended action items changed entirely^[for the better!] after comments from the lead of a relevant department who wasn't a "required" reviewer.
+
+# Creating a Participatory, Interactive System for Sharing
+
+## General Structure
+
+Rather than have people feel like they're passively consuming my data deliverable, I want them to feel involved in the process. My general structure goes like this: <br>
+<br>
+1. Have a hook that draws people in <br>
+2. Give them a quick and easy way to think about their expectations <br>
+3. Follow all the wonderful advice about tailoring your deliverable to the audience <br>
+
+## A Case Study
+
+For example, I was presenting a case study on the results of an experiment at my job. Previously only the folks who were required to read this kind of report had read them, and only grudgingly. This time when I shared the result, I: <br>
+<br>
+1. Didn't put the results directly in Slack, and instead asked whether people thought they could guess how well the experiment had worked. <br>
+2. I then linked to a Typeform survey where people answered two quick questions - one about how they thought the experiment went and another about how confident they were in their guess <br>
+3. The end of that survey automatically redirected to a stakeholder report designed to be accessible to people with little time and context^[With footnotes for folks like you more interested in the nitty, gritty details. Hi!] <br>
+<br>
+After this simple change we went from 2-3 people skimming the case study results to nearly 50% of our small startup discussing the results in Slack. Using the survey also helped me track how many people viewed the report and what their expectations were about the experiment before knowing the results.
+
+# This System Will Look Different Across Different Contexts!
+
+You know much better than I do what version of this would work at your company. I can imagine places that are more siloed might not benefit much from this approach. I also know there are situations where folks don't want people from other departments commenting outside of a predetermined flow. <br>
+<br>
+And if you can pull it off I imagine you can find a useful version for you and your organization!
+
+# Caveats
+
+Of course this is completely anecdotal and based on my experience. The increased participation I've seen could be a mirage, a coincidence, or a myriad of other options. I'm also wary of putting too large a roadblock in between the stakeholder and the deliverable, so a 2 question survey makes a lot more sense to me than a twenty question one. Finally, sometimes you can make great adjustments and get unlucky. The goal here is to consistently have more people consider your work, not have the company Slack buzzing every single time.^[I don't know about you, but that doesn't feel like a sustainable outcome to me!]
+
+# Conclusion
+
+I hope this framework can be useful for folks! I know there are a lot of thoughts on how to share results with stakeholders, and I've seen less content focused on stakeholder "uptake" of data deliverables. That said, if you have other favorite reads, listens, or watches that address this issue please send them my way [on Twitter](https://twitter.com/mcmullarkey){target="_blank"}.
+

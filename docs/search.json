@@ -46,7 +46,7 @@
     "href": "index.html",
     "title": "Rigorous Data Science, Translated for Humans",
     "section": "",
-    "text": "R\n\n\nQuarto\n\n\nReport-Making\n\n\n\n\nCreate Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache\n\n\n\n\n\n\nOct 25, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\ncode\n\n\nanalysis\n\n\nnba\n\n\n\n\nLooking for the Unsustainable\n\n\n\n\n\n\nOct 17, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\nNo matching items"
+    "text": "Case Study\n\n\nStakeholders\n\n\n\n\nCreating an Interactive, Participatory System\n\n\n\n\n\n\nOct 26, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nR\n\n\nQuarto\n\n\nReport-Making\n\n\n\n\nCreate Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache\n\n\n\n\n\n\nOct 25, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\ncode\n\n\nanalysis\n\n\nnba\n\n\n\n\nLooking for the Unsustainable\n\n\n\n\n\n\nOct 17, 2022\n\n\nMichael Mullarkey\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -334,5 +334,26 @@
     "title": "Cool graphs about elevators",
     "section": "Where in the world did all my elevators go",
     "text": "Where in the world did all my elevators go"
+  },
+  {
+    "objectID": "posts/2022_10_26_participatory_case_studies/index.html",
+    "href": "posts/2022_10_26_participatory_case_studies/index.html",
+    "title": "How Do I Get People to Pay Attention to My Data Deliverables?",
+    "section": "",
+    "text": "Everyone wants their work to be recognized. Recognition can come in a lot of different forms, and none1 of them are possible if people don’t pay attention to your work.   I’ve come up with a system that has effectively captured my stakeholders’ attention. There are important caveats,2 and I thought it might be useful to share my approach. Please feel free to try, remix, and let me know how it goes!"
+  },
+  {
+    "objectID": "posts/2022_10_26_participatory_case_studies/index.html#general-structure",
+    "href": "posts/2022_10_26_participatory_case_studies/index.html#general-structure",
+    "title": "How Do I Get People to Pay Attention to My Data Deliverables?",
+    "section": "General Structure",
+    "text": "General Structure\nRather than have people feel like they’re passively consuming my data deliverable, I want them to feel involved in the process. My general structure goes like this:   1. Have a hook that draws people in  2. Give them a quick and easy way to think about their expectations  3. Follow all the wonderful advice about tailoring your deliverable to the audience"
+  },
+  {
+    "objectID": "posts/2022_10_26_participatory_case_studies/index.html#a-case-study",
+    "href": "posts/2022_10_26_participatory_case_studies/index.html#a-case-study",
+    "title": "How Do I Get People to Pay Attention to My Data Deliverables?",
+    "section": "A Case Study",
+    "text": "A Case Study\nFor example, I was presenting a case study on the results of an experiment at my job. Previously only the folks who were required to read this kind of report had read them, and only grudgingly. This time when I shared the result, I:   1. Didn’t put the results directly in Slack, and instead asked whether people thought they could guess how well the experiment had worked.  2. I then linked to a Typeform survey where people answered two quick questions - one about how they thought the experiment went and another about how confident they were in their guess  3. The end of that survey automatically redirected to a stakeholder report designed to be accessible to people with little time and context5   After this simple change we went from 2-3 people skimming the case study results to nearly 50% of our small startup discussing the results in Slack. Using the survey also helped me track how many people viewed the report and what their expectations were about the experiment before knowing the results."
   }
 ]
