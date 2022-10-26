@@ -2,7 +2,7 @@
 title: "Parameterized Reports in Disguise"
 description: "Create Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache"
 author: "Michael Mullarkey"
-date: "2022-10-17"
+date: "2022-10-25"
 format: 
   html:
     code-fold: true
@@ -85,7 +85,7 @@ We now need another file that will replace "{{ borough }}" with the appropriate 
 
 Once you have a file like this that can programmatically replace your parameters and render reports you're good to go! <br>
 <br>
-You can check out the programmatically generated reports for [Manhattan](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.html){target="_blank"} the [Bronx](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.html){target="_blank"}, [Brooklyn](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.html){target="_blank"}, [Queens](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.html){target="_blank"}, and [Staten Island](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten Island_2022-10-25.html){target="_blank"}. <br>
+You can check out the programmatically generated reports for [Manhattan](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.html){target="_blank"} the [Bronx](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.html){target="_blank"}, [Brooklyn](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.html){target="_blank"}, [Queens](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.html){target="_blank"}, and [Staten Island](https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten Island_2022-10-25.html){target="_blank"}.^[One note for anyone trying to replicate this process: In order to not have all the programmatically generated .qmd files show up as separate blog posts on my website, I had to delete them. I also had to delete the .qmd files for the report template and mapping through creating all the reports. You can recreate those files entirely from the code in this blog post, and I could understand someone looking in the Github repo being confused. This isn't an issue when you're not publishing a blog post, so in most situations you shouldn't even have to think about this wrinkle!] <br>
 <br>
 If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.^[I do more file path work using glue in other circumstances, and doing that wasn't playing nice with the Quarto blog structure. Another adventure for another time!]
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Michael Mullarkey">
-<meta name="dcterms.date" content="2022-10-17">
+<meta name="dcterms.date" content="2022-10-25">
 <meta name="description" content="Create Ultra-Parameterized Reports Disguised as Custom Reports with Quarto and Mustache">
 
 <title>Michael Mullarkey’s Blog - Parameterized Reports in Disguise</title>
@@ -207,7 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 17, 2022</p>
+        <p class="date">October 25, 2022</p>
       </div>
     </div>
       
@@ -571,7 +571,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Once you have a file like this that can programmatically replace your parameters and render reports you’re good to go! <br> <br> You can check out the programmatically generated reports for <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.html" target="_blank">Manhattan</a> the <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.html" target="_blank">Bronx</a>, <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.html" target="_blank">Brooklyn</a>, <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.html" target="_blank">Queens</a>, and <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten%20Island_2022-10-25.html" target="_blank">Staten Island</a>. <br> <br> If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>Once you have a file like this that can programmatically replace your parameters and render reports you’re good to go! <br> <br> You can check out the programmatically generated reports for <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Manhattan_2022-10-25.html" target="_blank">Manhattan</a> the <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Bronx_2022-10-25.html" target="_blank">Bronx</a>, <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Brooklyn_2022-10-25.html" target="_blank">Brooklyn</a>, <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Queens_2022-10-25.html" target="_blank">Queens</a>, and <a href="https://mcmullarkey.github.io/mcmullarkey-blog/posts/2022_10_20_ultra_parameterized_reports/ultra_parameter_example/quarto_files/Staten%20Island_2022-10-25.html" target="_blank">Staten Island</a>.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> <br> <br> If stakeholders have a small tweak they want to one report but not others you can make that edit just in one .qmd file and then re-render it.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
 </section>
 </section>
 <section id="conclusion" class="level1">
@@ -593,7 +593,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li id="fn6"><p>almost<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>Yes, this includes the risky “Find and Replace All” strategy<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>Yes, I definitely lean toward parameterization, maybe too much!<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>I do more file path work using glue in other circumstances, and doing that wasn’t playing nice with the Quarto blog structure. Another adventure for another time!<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>One note for anyone trying to replicate this process: In order to not have all the programmatically generated .qmd files show up as separate blog posts on my website, I had to delete them. I also had to delete the .qmd files for the report template and mapping through creating all the reports. You can recreate those files entirely from the code in this blog post, and I could understand someone looking in the Github repo being confused. This isn’t an issue when you’re not publishing a blog post, so in most situations you shouldn’t even have to think about this wrinkle!<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>I do more file path work using glue in other circumstances, and doing that wasn’t playing nice with the Quarto blog structure. Another adventure for another time!<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
