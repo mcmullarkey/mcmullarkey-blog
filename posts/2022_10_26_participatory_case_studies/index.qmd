@@ -15,7 +15,7 @@ engine: knitr
 
 Everyone wants their work to be recognized. Recognition can come in a lot of different forms, and none^[Ok, almost none, sometimes people will recognize the effort you made even if they don't look at the deliverable] of them are possible if people don't pay attention to your work. <br>
 <br>
-I've come up with a system that has effectively captured my stakeholders' attention. There are important caveats,^[We'll have a whole section at the end!] and I thought it might be useful to share my approach. Please feel free to try, remix, and [let me know how it goes](https://twitter.com/mcmullarkey){target="_blank"}!
+I've come up with a system that can effectively captured my stakeholders' attention. There are important caveats,^[We'll have a whole section at the end!] and I thought it might be useful to share my approach. Please feel free to try, remix, and [let me know how it goes](https://twitter.com/mcmullarkey){target="_blank"}!
 
 # The Data Practicioner's Dilemma
 
@@ -27,9 +27,9 @@ This post nods at this dilemma, but actually tackles a problem even further upst
 
 # Is This a Problem?
 
-I can understand if data practitioners feel like this isn't their problem to solve. In some cases it isn't! And I've found that having more eyes on my deliverables has benefited me a bunch. <br>
+I can understand if data practitioners feel like this isn't their problem to solve. In some cases it isn't! And I've found that having more eyes on my deliverables has made me a better data practicioner. <br>
 <br>
-First, making your deliverable more fun for people who are required to consume it will likely still help you. Having your work be something people look forward to definitely isn't going to hurt! And if they enjoy themselves they might spend more time considering the results + providing effective feedback. <br>
+First, making your deliverable more fun for people who are required to consume it will likely still help you. People looking forward to reviewing your work isn't going to hurt! And if they enjoy themselves they might spend more time considering the results + providing effective feedback. <br>
 <br>
 And if you make people who aren't required to consume your data deliverables curious about them, you might get key insights you wouldn't have otherwise. For example, one of my cases study's recommended action items changed entirely^[for the better!] after comments from the lead of a relevant department who wasn't a "required" reviewer.
 
