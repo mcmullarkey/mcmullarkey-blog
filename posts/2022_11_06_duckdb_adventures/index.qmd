@@ -1,0 +1,176 @@
+---
+title: "Exploring My Twitter Archive with DuckDB and Python"
+description: "A Fun Way to Do In-Memory Data Exploration"
+author: "Michael Mullarkey"
+date: "2022-11-09"
+format: 
+  html:
+    code-fold: false
+    toc: true
+categories: [DuckDB, Python, Twitter]
+jupyter: python3
+---
+
+# Why Should I Care?
+
+[DuckDB](https://duckdb.org/why_duckdb.html#duckdbissimple){target="_blank"} has been all the rage on Data Twitter^[Data Mastodon? Data 138-Different-Discord-Servers?] for ~983,000 Elon Musk attention spans. There are a lot of technical reasons to get excited,^[No external dependencies like SQLite with a lot more features, thorough testing with CI, open source] and I'll focus on one in particular - its ability to process data without copying it to a database.<br>
+<br>
+Working with data that's just small enough to fit in local memory can feel like the worst of all worlds. You're using data wrangling tools designed for data that's smaller, but creating a database seems like overkill. Enter DuckDB, which allows you to [run SQL queries directly on Pandas data frames](https://duckdb.org/2021/05/14/sql-on-pandas.html){target="_blank"}.^[As of me writing this I don't believe you can work directly on data frames or tibble in R, though you can interface with DuckDB using the dbplyr package https://duckdb.org/docs/api/r] <br>
+<br>
+Now you can take advantage of a blazing-fast^[Or maybe not, as we'll see soon!] style of SQL on local data. And since I love getting a bit meta, let's use this framework to analyze [my Twitter archive.](https://help.twitter.com/en/managing-your-account/how-to-download-your-twitter-archive){target="_blank"}
+
+# Load Packages
+
+First we'll import the packages we need. If you want to skip the local timezone wrangling part you can eliminate the datetime, pytz, and tzlocal dependencies.
+
+```{python}
+
+# Import packages, most for parsing the tweets.js file
+
+import numpy as np
+import pandas as pd
+import duckdb
+import json
+import time
+import datetime
+import pytz
+from dateutil.tz import tzlocal
+
+```
+
+# Parsing My Tweets Data
+
+We'll create a function to can load the tweets.js in as a pandas data frame. While the Javascript file was a little tricky at first I realized it was JSON with some extra text at the front. <br>
+<br>
+Opening the file, removing that text, and then normalizing the JSON let's us read in the tweets data as a Pandas Data Frame without too much fuss.
+
+```{python}
+
+# Adapting a parsing function from here but extended it to go into a DF 
+# https://github.com/dangoldin/twitter-archive-analysis/blob/master/analyze.py
+
+def load_tweets_from_js(js_file):
+    with open(js_file, "r") as f:
+        data = f.read()
+        data = data.replace("window.YTD.tweets.part0 = ", "")
+        tweets = json.loads(data)
+        for tweet in tweets:
+            ts = datetime.datetime.strptime(
+                tweet["tweet"]["created_at"], "%a %b %d %H:%M:%S +0000 %Y"
+            )
+            ts = ts.replace(tzinfo=pytz.utc)
+            ts = ts.astimezone(tzlocal())
+            tweet["timestamp"] = ts
+        print("Loaded %d tweets" % len(tweets))
+        tweets_df = pd.json_normalize(tweets)
+        return tweets_df
+
+```
+
+# Some Initial Tidying with Pandas
+
+One great aspect of using local data is we don't have to abandon other tools we know and love to exclusively use SQL. For example, we can use Pythonic methods to rename all our columns in a way that won't collide with the SQL interpreter^[Replacing all the "." in variable names with "_" so the SQL interpreter doesn't think we're referencing a variable within another table] in a single line of code.
+
+```{python}
+#| warnings: hide 
+# Use the function to create a Pandas DataFrame
+
+tweets = load_tweets_from_js("tweets.js")
+
+# Replace periods with underscores so they don't confuse SQL later
+
+tweets.columns = tweets.columns.str.replace(".", "_",regex = False)
+
+# Convert multiple columns to numeric at once
+# Only doing with two columns here but could work with many more
+
+secret_numeric = ["tweet_favorite_count","tweet_retweet_count"]
+
+tweets[secret_numeric] = tweets[secret_numeric].apply(pd.to_numeric)
+
+# Confirm the conversion worked (Commented out because it did!)
+# tweets.dtypes
+
+```
+
+# An Example DuckDB Query on a Pandas Data Frame
+
+Now we can use DuckDB as a querying engine directly on this pandas data frame! <br>
+<br>
+Here's a simple example to start, where we use DuckDB to (*gulp*) look at how many likes my tweets have gotten on average:
+
+```{python}
+
+print(duckdb.query("SELECT AVG(tweet_favorite_count) as avg_favorite_count FROM tweets").to_df())
+
+```
+
+# Comparing the Speed of DuckDB and Pandas on My Twitter Archive
+
+Ok, so how long does this take on my non-enormous Twitter archive? Let's create a timing function first.
+
+```{python}
+
+def time_duckdb(full_query):
+  start = time.time()
+  duckb_query = duckdb.query(full_query).to_df()
+  end = time.time()
+  print(round(end - start, 4))
+  
+```
+
+
+```{python}
+
+time_duckdb("SELECT AVG(tweet_favorite_count) as avg_favorite_count FROM tweets")
+
+```
+
+Pretty quick! How does this simple DuckDB query compare to an equivalent Pandas operation?
+
+```{python}
+
+start_pd_simple = time.time()
+test_pandas_avg = tweets.agg(avg_favorite_count = ("tweet_favorite_count", "mean"))
+end_pd_simple = time.time()
+print(round(end_pd_simple - start_pd_simple, 4))
+
+```
+
+On simple queries on non-enormous data^[In this case ~10 MB] Pandas seems to still be much faster than DuckDB. That lead would diminish and [eventually disappear on larger data.](https://duckdb.org/2021/05/14/sql-on-pandas.html){target="_blank"}<br>
+<br>
+
+# Sometime We Might Prefer to Write SQL
+
+And even if Pandas is faster on data of this size sometimes we might prefer to use DuckDB anyway. <br>
+<br>
+For example, the syntax for doing a filtered "group by" using SQL is more intuitive to me than the equivalent Pandas syntax. Either works, and as we can see here Pandas is still faster on data at this size!
+
+```{python}
+
+time_duckdb("SELECT AVG(tweet_favorite_count) as avg_favorite_count FROM tweets WHERE tweet_retweet_count > 10 GROUP BY tweet_truncated")
+
+```
+
+```{python}
+
+start = time.time()
+filtered_pandas = tweets[tweets["tweet_retweet_count"] >= 1]
+grouped_avg_pandas = filtered_pandas.groupby('tweet_truncated', as_index=False).agg(avg_favorite_count = ("tweet_favorite_count", "mean"))
+end = time.time()
+print(round(end - start, 4))
+
+```
+
+And since in this case the speed differential is negligible^[Both styles of queries are more than fast enough!] having another option for data wrangling can be handy. <br>
+<br>
+DuckDB also has the virtue of being far more scalable than Pandas. That scalability extends to much larger data, much more complex data wrangling, and both of those complexities combined.
+
+# Conclusion
+
+I had a good time exploring a more compact use-case for DuckDB. I was a bit surprised how much faster the Pandas queries ran vs. DuckDB at "small-ish data" size. I figured the two appraoaches would be closer in speed, though this may be a quirk of running Python through Quarto. <br>
+<br>
+I'm hoping this is just a warm-up act for my journey with DuckDB! I'm especially excited about DuckDB as a key catalyst for running the Modern Data Stack on a laptop, and if you're also intrigued I recommend checking out [this proof-of-concept](https://duckdb.org/2022/10/12/modern-data-stack-in-a-box.html){target="_blank"} by [Jacob Matson](https://twitter.com/matsonj){target="_blank"}. <br>
+<br>
+If you have any questions or comments I'd love to hear from you! For at least a while [I'm on Twitter](https://twitter.com/mcmullarkey){target="_blank"}, and other contact info is on [my website](https://mcmullarkey.github.io/){target="_blank"}.
+
