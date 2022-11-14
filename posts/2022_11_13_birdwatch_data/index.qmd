@@ -13,13 +13,13 @@ jupyter: python3
 
 # Why Should I Care?
 
-[A recent Washington Post article](https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/){target="_blank"} dove deep on Twitter's crowd-sourced fact-checking program Birdwatch. Twitter's owner [touted the volunteer-driven initiative](https://twitter.com/elonmusk/status/1588933974470332418?s=20&t=YX1oXKVQwUw54pJVyyNHEg){target="_blank"} around the same time [15% of Trust and Safety staff were laid off.](https://www.theverge.com/2022/11/4/23441404/twitter-trust-safety-staff-layoffs-content-moderation){target="_blank"} A week later a large number of content moderation contractors^[Including a contractor making critical changes to child safety workflows https://twitter.com/CaseyNewton/status/1591608307927556096?s=20&t=4lurUg2rjlnq6mZ8xqquNQ] were [fired without notice](https://mobile.twitter.com/CaseyNewton/status/1591608302076858371){target="_blank"} and the head of Trust and Safety [had resigned](https://www.theverge.com/2022/11/10/23452133/twitter-executives-trust-safety-sales-ads-yoel-roth-robin-wheeler){target="_blank"}.<br>
+[A recent Washington Post article](https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/){target="_blank"} dove deep on Twitter's crowd-sourced fact-checking program Birdwatch. Twitter's owner [touted the volunteer-driven initiative](https://twitter.com/elonmusk/status/1588933974470332418?s=20&t=YX1oXKVQwUw54pJVyyNHEg){target="_blank"} around the same time [15% of Trust and Safety staff were laid off.](https://www.theverge.com/2022/11/4/23441404/twitter-trust-safety-staff-layoffs-content-moderation){target="_blank"} A week later a large number of content moderation contractors^[Including a contractor making critical changes to child safety workflows https://twitter.com/CaseyNewton/status/1591608307927556096?s=20&t=4lurUg2rjlnq6mZ8xqquNQ] were [fired without notice](https://mobile.twitter.com/CaseyNewton/status/1591608302076858371){target="_blank"} and the head of Trust and Safety [resigned](https://www.theverge.com/2022/11/10/23452133/twitter-executives-trust-safety-sales-ads-yoel-roth-robin-wheeler){target="_blank"}.<br>
 <br>
-Data related to trust and safety decisions like these are rarely open for audit, but Birdwatch^[Now referred to by some people as Community Notes, though I'll be using Birdwatch throughout] has provided open source data, code, and documentation since it started as a [small pilot program in January 2021](https://blog.twitter.com/en_us/topics/product/2021/introducing-birdwatch-a-community-based-approach-to-misinformation){target="_blank"}. I decided to do an initial assessment of the open data with an eye toward Birdwatch's scalability as a content moderation tool.
+Data related to trust and safety are rarely open for audit, but Birdwatch^[Now referred to by some people as Community Notes, though I'll be using Birdwatch throughout] has provided open source data, code, and documentation since it started as a [small pilot program in January 2021](https://blog.twitter.com/en_us/topics/product/2021/introducing-birdwatch-a-community-based-approach-to-misinformation){target="_blank"}. I decided to do an initial assessment of the open data with an eye toward Birdwatch's scalability as a content moderation tool.
 
 # Load Packages
 
-We don't need a lot of Python packages to do this analysis, and I try to keep my dependencies as light as possible without making my life a nightmare.
+We don't need a lot of Python packages to do this analysis,^[And if you don't care about the code you can ignore it. You don't need to know Python to read this post!] and I try to keep my dependencies as light as possible without making my life a nightmare.
 
 ```{python}
 
@@ -73,13 +73,13 @@ Before I move forward, one huge positive of this project is that data is availab
 
 Any Twitter user can join Birdwatch with the ultimate goal of adding notes to tweets. Those notes can fact-check, provide additional context, and in theory deter disinformation. <br>
 <br>
-There are checks and balances on the Birdwatch system geared toward stopping bad-faith actors. While anyone can join Birdwatch you cannot write your own initial notes on tweets when you join. First, you must consistently submit ratings of others' initial notes that agree with the other Birdwatcher members' general consensus. <br>
+There are checks and balances on the Birdwatch system geared toward stopping bad-faith actors. While anyone can join Birdwatch you cannot write your own initial notes on tweets when you join. First, you must consistently submit ratings of others' initial notes that agree with the other Birdwatch members' general consensus. <br>
 <br>
 Those ratings from Birdwatch members also serve as a powerful bottleneck for which initial notes ultimately appear on tweets. The ranking for whether a note is "helpful" enough to apply to a tweet is more complex than a majority vote among Birdwatch members. <br>
 <br>
-Instead, initial notes that receive a few positive ratings from people who normally disagree on their ratings are more likely to be rated as helpful than initial notes that receive positive ratings from many people who normally agree.<br>
+Instead, initial notes that receive a few positive ratings from people who normally disagree on their ratings are more likely to be rated as helpful than initial notes that receive many positive ratings from people who normally agree.<br>
 <br>
-This system is known as [bridge-based ranking](https://www.belfercenter.org/publication/bridging-based-ranking){target="_blank"} and algorithmically prioritizes this form of consensus over other potential approaches. The Washington Post article notes this approach is unlikely to scale, especially in ["an era when left and right often lack a shared set of facts."](https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/){target="_blank"} <br>
+This system is known as [bridge-based ranking](https://www.belfercenter.org/publication/bridging-based-ranking){target="_blank"} and algorithmically prioritizes this form of consensus over potential alternatives The Washington Post article notes this approach is unlikely to scale, especially in ["an era when left and right often lack a shared set of facts."](https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/){target="_blank"} <br>
 <br>
 To see how well this approach does or does not scale right now, let's dive into the data.
 
@@ -103,7 +103,7 @@ For context, there are approximately [500,000,000 tweets sent per day](https://t
 <br>
 Even if we assume that only the top 0.1% of tweets require the scrutiny of Birdwatch that would mean 500 tweets should be considered for notes per day.<br>
 <br>
-We can be extra generous and say fewer tweets than that might require notes, but we'd still expect around 500 notes per day. How many days in Birdwatch data meet that criteria?
+We can be extra generous and say fewer tweets than that might require notes, but we'd still expect around 500 notes per day. How many days in the Birdwatch data meet that criteria?
 
 ```{python}
 
@@ -204,7 +204,7 @@ However, there are reasons to believe that using its current standards more memb
 <br>
 Think back to the example of the tweet with the most initial notes ever. Lots of people wrote initial notes, but nowhere near enough people rated all those initial notes. <br>
 <br>
-It's possible Birdwatch has better procedures in place now, but it seems like even more Birdwatch members could encounter a similar coordination problem. Too many people writing initial notes, and - after the initial probationary period - not enough people rating initial notes. That the vast majority of initial notes continue to have too few ratings to even be considered helpful does not inspire confidence.
+It's possible Birdwatch has better procedures in place now, but it seems like more Birdwatch members could exacerbate this coordination problem. Too many people writing initial notes, and - after the initial probationary period - not enough people rating initial notes.
 
 # Summary of Findings
 1. Birdwatch currently reviews an extraordinarily low volume of overall tweets <br>
@@ -218,7 +218,7 @@ Paying people fair wages and professionalizing the approach to which tweets rece
 <br>
 2. Re-situate Birdwatch as one of many content moderation tools<br>
 <br>
-Birdwatch doesn't need to massively scale to be useful. It could function well as a small part of a suite of content moderation tools. However, if Twitter relies on the current iteration of Birdwatch as its central content moderation tool I would expect massive content moderation failures. Not because Birdwatch community members are performing poorly, but because they're community members performing the tasks of many teams' worth of employees.
+Birdwatch doesn't need to massively scale to be useful. It could function well as a small part of a suite of content moderation tools. However, if Twitter relies on the current iteration of Birdwatch as its central content moderation tool I would expect massive content moderation failures. Not because Birdwatch community members are performing poorly, but because they would be community members performing the tasks of many teams' worth of employees.
 
 # Conclusion
 
@@ -226,4 +226,6 @@ This analysis is only possible because Birdwatch has open data. Trust and Safety
 <br>
 The more teams follow these examples the better we'll be able to moderate content in helpful, just ways.<br>
 <br>
-There are many stones still left to turn in this data. I hope I can inspire at least a couple of other people to take a closer look, and if you find anything interesting please [get in touch](https://mcmullarkey.github.io/){target="_blank"}.
+There are many stones still left to turn in this data. For example, I think^[But haven't directly confirmed!] that a vast majority^[And maybe all] of the tweets with initial notes are in English. Someone could look into that and contextualize the volume of tweets Birdwatch hasn't even attempted to moderate. <br>
+<br>
+I hope I can inspire at least a couple of other people to take a closer look, and if you find anything interesting please [get in touch](https://mcmullarkey.github.io/){target="_blank"}.
