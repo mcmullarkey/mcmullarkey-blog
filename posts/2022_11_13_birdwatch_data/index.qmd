@@ -32,7 +32,7 @@ import pandas as pd
 
 We can download the data from [this page](https://twitter.com/i/birdwatch/download-data){target="_blank"}, where the Birdwatch data is updated daily. <br>
 <br>
-I downloaded this data on November 13, 2022. If you're accessing this data in the future the analyses will not exactly reproduce since new data will be included. You can feel free to grab the data I'm using from the Github repo for this post.<br>
+I downloaded this data on November 13, 2022. If you're accessing this data in the future the analyses will not exactly reproduce since new data will be included. You can feel free to grab the data I'm using from [the Github repo for this post](https://github.com/mcmullarkey/mcmullarkey-blog/tree/main/posts/2022_11_13_birdwatch_data){target="_blank"}.<br>
 <br>
 First we'll make a quick function to read the .tsv files in as Pandas Data Frames.
 

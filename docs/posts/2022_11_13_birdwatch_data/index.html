@@ -266,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="import-birdwatch-data" class="level1">
 <h1>Import Birdwatch Data</h1>
-<p>We can download the data from <a href="https://twitter.com/i/birdwatch/download-data" target="_blank">this page</a>, where the Birdwatch data is updated daily. <br> <br> I downloaded this data on November 13, 2022. If you’re accessing this data in the future the analyses will not exactly reproduce since new data will be included. You can feel free to grab the data I’m using from the Github repo for this post.<br> <br> First we’ll make a quick function to read the .tsv files in as Pandas Data Frames.</p>
+<p>We can download the data from <a href="https://twitter.com/i/birdwatch/download-data" target="_blank">this page</a>, where the Birdwatch data is updated daily. <br> <br> I downloaded this data on November 13, 2022. If you’re accessing this data in the future the analyses will not exactly reproduce since new data will be included. You can feel free to grab the data I’m using from <a href="https://github.com/mcmullarkey/mcmullarkey-blog/tree/main/posts/2022_11_13_birdwatch_data" target="_blank">the Github repo for this post</a>.<br> <br> First we’ll make a quick function to read the .tsv files in as Pandas Data Frames.</p>
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
@@ -371,7 +371,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>.assign(percent <span class="op">=</span> <span class="kw">lambda</span> x: (x[<span class="st">"currentStatus"</span>] <span class="op">/</span> x[<span class="st">"currentStatus"</span>].<span class="bu">sum</span>()) <span class="op">*</span> <span class="dv">100</span>)<span class="op">\</span></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>.<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="286">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
 <div>
 
@@ -432,7 +432,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>initial_history[initial_history[<span class="st">"noteId"</span>].isin(aoc_note_ids)].currentStatus.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="288">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>NEEDS_MORE_RATINGS    54
 Name: currentStatus, dtype: int64</code></pre>
 </div>
