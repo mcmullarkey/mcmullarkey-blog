@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michael Mullarkey">
+<meta name="dcterms.date" content="2022-11-13">
+<meta name="description" content="An Initial Investigation">
+
+<title>Michael Mullarkey’s Blog - Assessing the Scalability of Birdwatch</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Michael Mullarkey’s Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://mcmullarkey.github.io/"><i class="bi bi-globe2" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mcmullarkey"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/mcmullarkey/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mcmullarkey"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.twitch.tv/mcmullarkey"><i class="bi bi-twitch" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Assessing the Scalability of Birdwatch</h1>
+                  <div>
+        <div class="description">
+          An Initial Investigation
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Trust and Safety</div>
+                <div class="quarto-category">Python</div>
+                <div class="quarto-category">Twitter</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Michael Mullarkey </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 13, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-should-i-care" id="toc-why-should-i-care" class="nav-link active" data-scroll-target="#why-should-i-care">Why Should I Care?</a></li>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages">Load Packages</a></li>
+  <li><a href="#import-birdwatch-data" id="toc-import-birdwatch-data" class="nav-link" data-scroll-target="#import-birdwatch-data">Import Birdwatch Data</a></li>
+  <li><a href="#exploring-birdwatch-data" id="toc-exploring-birdwatch-data" class="nav-link" data-scroll-target="#exploring-birdwatch-data">Exploring Birdwatch Data</a>
+  <ul class="collapse">
+  <li><a href="#a-quick-primer-on-how-birdwatch-works" id="toc-a-quick-primer-on-how-birdwatch-works" class="nav-link" data-scroll-target="#a-quick-primer-on-how-birdwatch-works">A Quick Primer on How Birdwatch Works</a></li>
+  <li><a href="#how-many-tweets-have-initial-notes" id="toc-how-many-tweets-have-initial-notes" class="nav-link" data-scroll-target="#how-many-tweets-have-initial-notes">How Many Tweets Have Initial Notes?</a></li>
+  <li><a href="#how-does-this-compare-to-the-total-volume-of-tweets" id="toc-how-does-this-compare-to-the-total-volume-of-tweets" class="nav-link" data-scroll-target="#how-does-this-compare-to-the-total-volume-of-tweets">How Does This Compare to the Total Volume of Tweets?</a></li>
+  <li><a href="#how-many-initial-notes-need-more-ratings-to-determine-their-helpfulness" id="toc-how-many-initial-notes-need-more-ratings-to-determine-their-helpfulness" class="nav-link" data-scroll-target="#how-many-initial-notes-need-more-ratings-to-determine-their-helpfulness">How Many Initial Notes Need More Ratings to Determine Their Helpfulness?</a></li>
+  <li><a href="#example-the-tweet-with-the-most-initial-notes-had-no-notes-with-enough-ratings" id="toc-example-the-tweet-with-the-most-initial-notes-had-no-notes-with-enough-ratings" class="nav-link" data-scroll-target="#example-the-tweet-with-the-most-initial-notes-had-no-notes-with-enough-ratings">Example: The Tweet With the Most Initial Notes Had No Notes with Enough Ratings</a></li>
+  <li><a href="#would-more-birdwatch-members-solve-all-these-problems" id="toc-would-more-birdwatch-members-solve-all-these-problems" class="nav-link" data-scroll-target="#would-more-birdwatch-members-solve-all-these-problems">Would More Birdwatch Members Solve All These Problems?</a></li>
+  </ul></li>
+  <li><a href="#summary-of-findings" id="toc-summary-of-findings" class="nav-link" data-scroll-target="#summary-of-findings">Summary of Findings</a></li>
+  <li><a href="#suggested-action-items" id="toc-suggested-action-items" class="nav-link" data-scroll-target="#suggested-action-items">Suggested Action Items</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="why-should-i-care" class="level1">
+<h1>Why Should I Care?</h1>
+<p><a href="https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/" target="_blank">A recent Washington Post article</a> dove deep on Twitter’s crowd-sourced fact-checking program Birdwatch. Twitter’s owner <a href="https://twitter.com/elonmusk/status/1588933974470332418?s=20&amp;t=YX1oXKVQwUw54pJVyyNHEg" target="_blank">touted the volunteer-driven initiative</a> around the same time <a href="https://www.theverge.com/2022/11/4/23441404/twitter-trust-safety-staff-layoffs-content-moderation" target="_blank">15% of Trust and Safety staff were laid off.</a> A week later a large number of content moderation contractors<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> were <a href="https://mobile.twitter.com/CaseyNewton/status/1591608302076858371" target="_blank">fired without notice</a> and the head of Trust and Safety <a href="https://www.theverge.com/2022/11/10/23452133/twitter-executives-trust-safety-sales-ads-yoel-roth-robin-wheeler" target="_blank">had resigned</a>.<br> <br> Data related to trust and safety decisions like these are rarely open for audit, but Birdwatch<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> has provided open source data, code, and documentation since it started as a <a href="https://blog.twitter.com/en_us/topics/product/2021/introducing-birdwatch-a-community-based-approach-to-misinformation" target="_blank">small pilot program in January 2021</a>. I decided to do an initial assessment of the open data with an eye toward Birdwatch’s scalability as a content moderation tool.</p>
+</section>
+<section id="load-packages" class="level1">
+<h1>Load Packages</h1>
+<p>We don’t need a lot of Python packages to do this analysis, and I try to keep my dependencies as light as possible without making my life a nightmare.</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="import-birdwatch-data" class="level1">
+<h1>Import Birdwatch Data</h1>
+<p>We can download the data from <a href="https://twitter.com/i/birdwatch/download-data" target="_blank">this page</a>, where the Birdwatch data is updated daily. <br> <br> I downloaded this data on November 13, 2022. If you’re accessing this data in the future the analyses will not exactly reproduce since new data will be included. You can feel free to grab the data I’m using from the Github repo for this post.<br> <br> First we’ll make a quick function to read the .tsv files in as Pandas Data Frames.</p>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_tsv(path):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> pd.read_csv(path, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Then we’ll apply that function to all of the Birdwatch data.</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [<span class="st">"notes-00000.tsv"</span>, <span class="st">"noteStatusHistory-00000.tsv"</span>, <span class="st">"ratings-00000.tsv"</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>initial_dfs <span class="op">=</span> []</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> path <span class="kw">in</span> paths:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  initial_data <span class="op">=</span> read_tsv(path)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  initial_dfs.append(initial_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="exploring-birdwatch-data" class="level1">
+<h1>Exploring Birdwatch Data</h1>
+<p>To make it easier to explore each data frame, we’ll assign them to separate objects outside the list. The documentation for all three datasets provided by Birdwatch is <a href="https://twitter.github.io/communitynotes/download-data/" target="_blank">here.</a></p>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>initial_notes, initial_history, initial_ratings <span class="op">=</span> initial_dfs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Before I move forward, one huge positive of this project is that data is available for outside research. Allowing external audits of content moderation approaches is tricky, and I commend the Birdwatch folks for their transparency so far.</p>
+<section id="a-quick-primer-on-how-birdwatch-works" class="level2">
+<h2 class="anchored" data-anchor-id="a-quick-primer-on-how-birdwatch-works">A Quick Primer on How Birdwatch Works</h2>
+<p>Any Twitter user can join Birdwatch with the ultimate goal of adding notes to tweets. Those notes can fact-check, provide additional context, and in theory deter disinformation. <br> <br> There are checks and balances on the Birdwatch system geared toward stopping bad-faith actors. While anyone can join Birdwatch you cannot write your own initial notes on tweets when you join. First, you must consistently submit ratings of others’ initial notes that agree with the other Birdwatcher members’ general consensus. <br> <br> Those ratings from Birdwatch members also serve as a powerful bottleneck for which initial notes ultimately appear on tweets. The ranking for whether a note is “helpful” enough to apply to a tweet is more complex than a majority vote among Birdwatch members. <br> <br> Instead, initial notes that receive a few positive ratings from people who normally disagree on their ratings are more likely to be rated as helpful than initial notes that receive positive ratings from many people who normally agree.<br> <br> This system is known as <a href="https://www.belfercenter.org/publication/bridging-based-ranking" target="_blank">bridge-based ranking</a> and algorithmically prioritizes this form of consensus over other potential approaches. The Washington Post article notes this approach is unlikely to scale, especially in <a href="https://www.washingtonpost.com/technology/2022/11/09/twitter-birdwatch-factcheck-musk-misinfo/" target="_blank">“an era when left and right often lack a shared set of facts.”</a> <br> <br> To see how well this approach does or does not scale right now, let’s dive into the data.</p>
+</section>
+<section id="how-many-tweets-have-initial-notes" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-tweets-have-initial-notes">How Many Tweets Have Initial Notes?</h2>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping by tweetId and counting number of notes per tweet</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tweets_initial_notes <span class="op">=</span> initial_notes.groupby(<span class="st">"tweetId"</span>).count()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use f-strings to get key info</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Birdwatchers have put initial notes on </span><span class="sc">{</span><span class="bu">len</span>(tweets_initial_notes)<span class="sc">}</span><span class="ss"> tweets since January of 2021."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Birdwatchers have put initial notes on 28723 tweets since January of 2021.</code></pre>
+</div>
+</div>
+</section>
+<section id="how-does-this-compare-to-the-total-volume-of-tweets" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-this-compare-to-the-total-volume-of-tweets">How Does This Compare to the Total Volume of Tweets?</h2>
+<p>For context, there are approximately <a href="https://thesocialshepherd.com/blog/twitter-statistics" target="_blank">500,000,000 tweets sent per day</a>. <br> <br> Even if we assume that only the top 0.1% of tweets require the scrutiny of Birdwatch that would mean 500 tweets should be considered for notes per day.<br> <br> We can be extra generous and say fewer tweets than that might require notes, but we’d still expect around 500 notes per day. How many days in Birdwatch data meet that criteria?</p>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting to date instead of milliseconds since epoch</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>initial_notes[<span class="st">"dateCreated"</span>] <span class="op">=</span> pd.to_datetime(initial_notes[<span class="st">"createdAtMillis"</span>], unit <span class="op">=</span> <span class="st">"ms"</span>).dt.date</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Counting the number of notes per day</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>tweet_initial_dates <span class="op">=</span> initial_notes.groupby([<span class="st">"dateCreated"</span>]).count()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding the earliest date</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>min_tweet_date <span class="op">=</span> tweet_initial_dates.index.<span class="bu">min</span>()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding how many dates where over 500 notes or more were created</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>days_500_per <span class="op">=</span> tweet_initial_dates[tweet_initial_dates.tweetId <span class="op">&gt;=</span> <span class="dv">500</span>]</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting value of only date where &gt;500 notes were created</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>only_date_over <span class="op">=</span> days_500_per.index.values</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"In all Birdwatch data going back to </span><span class="sc">{</span>min_tweet_date<span class="sc">}</span><span class="ss">, there was </span><span class="sc">{</span><span class="bu">len</span>(days_500_per)<span class="sc">}</span><span class="ss"> day where at least 500 notes were written - </span><span class="sc">{</span>only_date_over[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>In all Birdwatch data going back to 2021-01-23, there was 1 day where at least 500 notes were written - 2021-01-28</code></pre>
+</div>
+</div>
+<p>Even with relaxed criteria, there was only 1 day at the very beginning of Birdwatch where the community reviewed approximately 0.1% of all tweets in a day. <br> <br> This relatively low review volume is understandable given Birdwatch is an almost all-volunteer effort. However, this precedent of not operating at scale becomes concerning if Birdwatch is expected to play a large role in preventing disinformation on the platform.</p>
+</section>
+<section id="how-many-initial-notes-need-more-ratings-to-determine-their-helpfulness" class="level2">
+<h2 class="anchored" data-anchor-id="how-many-initial-notes-need-more-ratings-to-determine-their-helpfulness">How Many Initial Notes Need More Ratings to Determine Their Helpfulness?</h2>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting status for which notes were rated as helpful or not</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>note_status <span class="op">=</span> initial_history[[<span class="st">"noteId"</span>,<span class="st">"currentStatus"</span>]]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Seeing what percentage of notes with evaluations need more evaluation</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>status_counts <span class="op">=</span> note_status.currentStatus.value_counts()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(status_counts)<span class="op">\</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>.assign(percent <span class="op">=</span> <span class="kw">lambda</span> x: (x[<span class="st">"currentStatus"</span>] <span class="op">/</span> x[<span class="st">"currentStatus"</span>].<span class="bu">sum</span>()) <span class="op">*</span> <span class="dv">100</span>)<span class="op">\</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>.<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="286">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>currentStatus</th>
+      <th>percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>NEEDS_MORE_RATINGS</th>
+      <td>14517</td>
+      <td>86.90</td>
+    </tr>
+    <tr>
+      <th>CURRENTLY_RATED_HELPFUL</th>
+      <td>1506</td>
+      <td>9.01</td>
+    </tr>
+    <tr>
+      <th>CURRENTLY_RATED_NOT_HELPFUL</th>
+      <td>683</td>
+      <td>4.09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Another indication that an all-volunteer effort isn’t enough to scale this form of content moderation - nearly 87% of initial notes need more ratings to determine whether they could be helpful or not. <br> <br> All initial notes start out as “Needs More Ratings” until they’ve received at least 5 ratings, and it appears a vast majority of notes never meet that threshold. <br> <br> There could be multiple reaons for this, ranging from charitable<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> to less so.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> There could be reasons internal to the Birdwatch community I’m unaware of that drive this pattern. <br> <br> And no matter what, the current Birdwatch system is failing to identify whether a vast majority initial notes are helpful. This is true even though the volume of initial notes is infentisimal compared to the total volume of tweets. If more initial notes were written to better keep up with overall tweet volume, there’s a chance this lack of ratings problem would be exacerbated.</p>
+</section>
+<section id="example-the-tweet-with-the-most-initial-notes-had-no-notes-with-enough-ratings" class="level2">
+<h2 class="anchored" data-anchor-id="example-the-tweet-with-the-most-initial-notes-had-no-notes-with-enough-ratings">Example: The Tweet With the Most Initial Notes Had No Notes with Enough Ratings</h2>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The tweet with the most initial notes had </span><span class="sc">{</span>tweets_initial_notes<span class="sc">.</span>noteId<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss"> notes."</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tweets_initial_notes[tweets_initial_notes.noteId == 58]</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Can use this website to get tweets from tweetId without using the API https://www.bram.us/2017/11/22/accessing-a-tweet-using-only-its-id-and-without-the-twitter-api/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The tweet with the most initial notes had 58 notes.</code></pre>
+</div>
+</div>
+<p>The tweet with the most initial notes was by <a href="https://twitter.com/AOC/status/1354848253729234944" target="_blank">Rep.&nbsp;Alexandria Ocasio-Cortez</a> in response to Senator Ted Cruz. The tweet touched on the trading platform Robinhood’s decision to prevent retail investors from trading certain stocks and the January 6th insurrection.<br> <br> This tweet ultimately did not have a note attached to it. <br> <br> Tweets could not have a note attached to them for 2 reasons: <br> 1. <a href="https://twitter.github.io/communitynotes/notes-on-twitter/" target="_blank">There is no note rated as helpful</a> <br> 2. There is at least one note rated as helpful but the Tweet <a href="https://twitter.github.io/communitynotes/ranking-notes/" target="_blank">is not marked as “potentially misleading”</a><br> <br> In this case no initial note was rated as helpful, and to boot none of the initial notes had enough ratings to even be considered.</p>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting all noteIds in reference to the AOC tweet into a list</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>aoc_note_ids <span class="op">=</span> initial_notes[initial_notes[<span class="st">"tweetId"</span>] <span class="op">==</span> <span class="dv">1354848253729234944</span>].noteId.to_list()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering the note history based on this list and counting values</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>initial_history[initial_history[<span class="st">"noteId"</span>].isin(aoc_note_ids)].currentStatus.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="288">
+<pre><code>NEEDS_MORE_RATINGS    54
+Name: currentStatus, dtype: int64</code></pre>
+</div>
+</div>
+<p>Even if you believe this tweet should not have received a note,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> it’s troubling that its status remained up in the air rather than seeing a definitive “not helpful” label applied to all initial notes.</p>
+</section>
+<section id="would-more-birdwatch-members-solve-all-these-problems" class="level2">
+<h2 class="anchored" data-anchor-id="would-more-birdwatch-members-solve-all-these-problems">Would More Birdwatch Members Solve All These Problems?</h2>
+<p>The two previous scalability issues could, at least in principle, be solved by having a lot more people joining Birdwatch. More initial notes could be written, more initial notes could receive ratings, and the system could achieve at least some scalability.<br> <br> However, there are reasons to believe that using its current standards more members could actually make Birdwatch <em>less</em> scalable. <br> <br> Think back to the example of the tweet with the most initial notes ever. Lots of people wrote initial notes, but nowhere near enough people rated all those initial notes. <br> <br> It’s possible Birdwatch has better procedures in place now, but it seems like even more Birdwatch members could encounter a similar coordination problem. Too many people writing initial notes, and - after the initial probationary period - not enough people rating initial notes. That the vast majority of initial notes continue to have too few ratings to even be considered helpful does not inspire confidence.</p>
+</section>
+</section>
+<section id="summary-of-findings" class="level1">
+<h1>Summary of Findings</h1>
+<ol type="1">
+<li>Birdwatch currently reviews an extraordinarily low volume of overall tweets <br></li>
+<li>A vast majority of initial notes do not receive enough ratings to assess their helpfulness <br></li>
+<li>Birdwatch is not likely to scale well in its current form</li>
+</ol>
+</section>
+<section id="suggested-action-items" class="level1">
+<h1>Suggested Action Items</h1>
+<ol type="1">
+<li>Pay people to perform Birdwatch’s functions<br> <br> Paying people fair wages and professionalizing the approach to which tweets receive notes would likely yield a fantastic return on investment. This approach would help increase the volume of initial notes, ensure enough ratings for each initial note, and provide crucial coordination capabilities such as consistently prioritizing high-value tweets.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> If Twitter wants to retain a bottom-up, participatory research style branch of content moderation they can do so. However, I recommend they consult with Trust and Safety professionals along with Birdwatch members on what form that participatory research should take. <br> <br></li>
+<li>Re-situate Birdwatch as one of many content moderation tools<br> <br> Birdwatch doesn’t need to massively scale to be useful. It could function well as a small part of a suite of content moderation tools. However, if Twitter relies on the current iteration of Birdwatch as its central content moderation tool I would expect massive content moderation failures. Not because Birdwatch community members are performing poorly, but because they’re community members performing the tasks of many teams’ worth of employees.</li>
+</ol>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This analysis is only possible because Birdwatch has open data. Trust and Safety measures require some procedures be kept under lock and key, and the considered transparency baked into Birdwatch’s approach since January 2021 is admirable. The <a href="https://gizmodo.com/twitter-layoffs-elon-musk-ai-ethics-1849743051" target="_blank">now-defunct</a> META team at Twitter also made <a href="https://blog.twitter.com/en_us/topics/company/2021/introducing-responsible-machine-learning-initiative" target="_blank">considered transparency a consistent practice</a>. <br> <br> The more teams follow these examples the better we’ll be able to moderate content in helpful, just ways.<br> <br> There are many stones still left to turn in this data. I hope I can inspire at least a couple of other people to take a closer look, and if you find anything interesting please <a href="https://mcmullarkey.github.io/" target="_blank">get in touch</a>.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Including a contractor making critical changes to child safety workflows https://twitter.com/CaseyNewton/status/1591608307927556096?s=20&amp;t=4lurUg2rjlnq6mZ8xqquNQ<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Now referred to by some people as Community Notes, though I’ll be using Birdwatch throughout<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The Birdwatch community actively doesn’t bother rating initial notes from obvious trolls, notes on low value tweets, or some other combination of undesirable features<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>There just aren’t enough people who can volunteer their time to such an intensive effort so most initial notes never receive enough ratings<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Cards on the table, I don’t think this tweet needs a note<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>I think the Birdwatch community has on balance elected to prioritize high-value tweets such as misleading tweets from Twitter’s owner. I’m also certain Twitter has more data that could help a system like this nip misinformation in the bud <em>before</em> it’s accrued millions of impressions<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
