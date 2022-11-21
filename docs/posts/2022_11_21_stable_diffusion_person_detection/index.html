@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Michael Mullarkey">
+<meta name="dcterms.date" content="2022-11-21">
+<meta name="description" content="A Deployed Proof-of-Concept">
+
+<title>Michael Mullarkey’s Blog - Detecting Stable Diffusion Generated People</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Michael Mullarkey’s Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://mcmullarkey.github.io/"><i class="bi bi-globe2" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mcmullarkey"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/mcmullarkey/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/mcmullarkey"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.twitch.tv/mcmullarkey"><i class="bi bi-twitch" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Detecting Stable Diffusion Generated People</h1>
+                  <div>
+        <div class="description">
+          A Deployed Proof-of-Concept
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Trust and Safety</div>
+                <div class="quarto-category">Python</div>
+                <div class="quarto-category">Stable Diffusion</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Michael Mullarkey </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 21, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#topline-summary" id="toc-topline-summary" class="nav-link active" data-scroll-target="#topline-summary">Topline Summary</a></li>
+  <li><a href="#ai-can-generate-realistic-looking-faces" id="toc-ai-can-generate-realistic-looking-faces" class="nav-link" data-scroll-target="#ai-can-generate-realistic-looking-faces">AI Can Generate Realistic Looking Faces</a></li>
+  <li><a href="#negative-side-effects-abound" id="toc-negative-side-effects-abound" class="nav-link" data-scroll-target="#negative-side-effects-abound">Negative Side Effects Abound</a></li>
+  <li><a href="#the-potential-for-negative-side-effects-only-increases-with-stable-diffusion" id="toc-the-potential-for-negative-side-effects-only-increases-with-stable-diffusion" class="nav-link" data-scroll-target="#the-potential-for-negative-side-effects-only-increases-with-stable-diffusion">The Potential for Negative Side Effects Only Increases with Stable Diffusion</a></li>
+  <li><a href="#i-built-and-deployed-a-model-to-detect-whether-people-were-generated-by-stable-diffusion" id="toc-i-built-and-deployed-a-model-to-detect-whether-people-were-generated-by-stable-diffusion" class="nav-link" data-scroll-target="#i-built-and-deployed-a-model-to-detect-whether-people-were-generated-by-stable-diffusion">I Built and Deployed a Model to Detect Whether People Were Generated by Stable Diffusion</a></li>
+  <li><a href="#how-did-you-build-this-model" id="toc-how-did-you-build-this-model" class="nav-link" data-scroll-target="#how-did-you-build-this-model">How Did You Build This Model?</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="topline-summary" class="level1">
+<h1>Topline Summary</h1>
+<p>AI can generate realistic-looking fake people, Stable Diffusion makes that easier than ever, and I’ve <a href="https://huggingface.co/spaces/mcmullarkey/did_stable_diffusion_make_this_person" target="_blank">deployed a model you can try yourself</a> with 93% out-of-sample accuracy in detecting whether the person was generated by Stable Diffusion.</p>
+</section>
+<section id="ai-can-generate-realistic-looking-faces" class="level1">
+<h1>AI Can Generate Realistic Looking Faces</h1>
+<p><a href="https://thispersondoesnotexist.com/" target="_blank">thispersondoesnotexist.com</a> <a href="https://www.theverge.com/tldr/2019/2/15/18226005/ai-generated-fake-people-portraits-thispersondoesnotexist-stylegan" target="_blank">blew</a> <a href="https://www.cnn.com/2019/02/28/tech/ai-fake-faces/index.html" target="_blank">everyone</a> <a href="https://www.bbc.com/news/technology-47296481" target="_blank">away</a> when it first launched in 2019. The website would generate a brand new,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> entirely fabricated person each time you refreshed.<br> <br> <img src="gan_example_image.jpg" class="img-fluid" alt="GAN Example Image"> <br> <br> The site used GAN neural networks, and provided code templates for generating your own fake people. Some folks pointed out <a href="https://venturebeat.com/media/why-thispersondoesnotexist-and-its-copycats-need-to-be-restricted/" target="_blank">at the time</a> that providing these code templates could have negative consequences. <br> <br></p>
+</section>
+<section id="negative-side-effects-abound" class="level1">
+<h1>Negative Side Effects Abound</h1>
+<p>For example, a network of bots using GAN-generated pictures <a href="https://twitter.com/conspirator0/status/1457049273971916802?t=s4r6fIRv7bXWSBJdaQcXqQ&amp;s=19" target="_blank">boosted tweets by a pro-secessionist candidate</a> for lieutenant governor in Texas. And that’s <a href="https://mobile.twitter.com/conspirator0/status/1322704400226394112" target="_blank">far from the only</a> swarm of bots that looked more like real people by using GAN generated faces. <br> <br> While these GAN-generated faces look realistic, they have some telltale visual cues that can help distinguish them from genuine photos. For example, GAN-generated faces tend to <a href="https://twitter.com/conspirator0/status/1457051603773575168" target="_blank">render the eyes in the exact same position</a>. So while they might be tricky to spot, we’ve <a href="https://github.com/andreacos/gan-generated-face-detection" target="_blank">gotten better</a> at screening for them.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <br> <br> Enter <a href="https://huggingface.co/spaces/stabilityai/stable-diffusion" target="_blank">Stable Diffusion</a>.<br> <br></p>
+</section>
+<section id="the-potential-for-negative-side-effects-only-increases-with-stable-diffusion" class="level1">
+<h1>The Potential for Negative Side Effects Only Increases with Stable Diffusion</h1>
+<p>In order to create a lot of faces using a GAN, you had to either manually refresh thispersondoesnotexist.com a bunch of times or know how to code. Generating realistic looking faces using Stable Diffusion is much simpler.<br> <br> If you haven’t heard of Stable Diffusion, it’s a AI model that can convert text prompts like “A cute penguin in front of a giant stack of pancakes, shot on iPhone” into an image like this. <br> <br> <img src="updated_penguin.jpg" class="img-fluid" alt="An excellent penguin"> <br> <br> You can also write other kinds of prompts<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> that generate realistic looking people. There are few, if any, telltale visual cues that the images were generated by Stable Diffusion.<br> <br> This person does not exist <br> <br> <img src="sd_test_image_3.jpg" class="img-fluid" alt="This person does not exist"> <br> <br> Neither does this person <br> <br> <img src="sd_example_image_4.jpg" class="img-fluid" alt="And neither does this person"> <br> <br> And they don’t either.<br> <br> <img src="sd_example_image_6.jpg" class="img-fluid" alt="And they don’t either"> <br> <br></p>
+</section>
+<section id="i-built-and-deployed-a-model-to-detect-whether-people-were-generated-by-stable-diffusion" class="level1">
+<h1>I Built and Deployed a Model to Detect Whether People Were Generated by Stable Diffusion</h1>
+<p>You can find the deployed model <a href="https://huggingface.co/spaces/mcmullarkey/did_stable_diffusion_make_this_person" target="_blank">here</a>. It predicts all of the example images correctly,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and the model has 93% out-of-sample accuracy with an out-of-sample F1 score of 0.88.<br> <br> <img src="image_deployed_model.png" class="img-fluid" alt="Here’s an example of testing an image in the deployed model"> <br> <br> You can test the model with any real or Stable-Diffusion generated images you’d like using the deployed model. Please send interesting model successes + failures to me on <a href="https://mobile.twitter.com/mcmullarkey" target="_blank">Twitter</a> or <a href="https://data-folks.masto.host/@mcmullarkey" target="_blank">Mastodon</a>! <br> <br> This is an initial proof-of-concept, so please don’t use this as part of any production products. If you’re interested in building on this idea I’d love to hear from you!</p>
+</section>
+<section id="how-did-you-build-this-model" class="level1">
+<h1>How Did You Build This Model?</h1>
+<p>I had a lot of fun building this model using Python, PyTorch, and the fastai wrapper. I got to do a lot of interesting work with APIs, loops, and query optimization. <br> <br> In huge contrast to most of my projects, I’m not going to publicly share my code. I don’t want to provide a direct blueprint for how to programmatically generate a lot of realistic-looking fake people. I’m kind of bummed, because I think it’s some of the best Python programming I’ve done. And I still think it’s the right thing to do.<br> <br> I understand that folks have a variety of opinions about this, and I think the potential harms outweigh any potential benefits.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a><br> <br> If you want to get a sense of how I generally approached my model-building, I’d recommend you check out <a href="https://course.fast.ai/" target="_blank">Practical Deep Learning for Coders</a>.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>I think Stable Diffusion is a powerful resource, and I think we need to think carefully about how to wield that power. Building models that can help detect whether an image was generated by Stable Diffusion is not a silver bullet answer. I think pervasive believable yet false imagery is a problem that far exceeds any one technical solution. <br> <br> And as we grapple with the proliferation of models like Stable Diffusion, having some technical tools like this model in our toolbelt feels like a good bet.</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Or almost brand new, if you refresh the site enough you definitely get repeats<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Though newer generations of GAN-generated faces will likely make them even harder to detect, see https://nvlabs.github.io/stylegan3/<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Which I won’t be sharing here, more on that later!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Huge shout out to HuggingFace spaces + Gradio for making such a great interface for push-button model deployments<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Especially since we know people have used open-source fake people generators for ill already, the risk isn’t hypothetical!<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
