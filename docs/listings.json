@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2024_04_24_mlcheck_intro/index.html",
       "/posts/2022_11_21_stable_diffusion_person_detection/index.html",
       "/posts/2022_11_13_birdwatch_data/index.html",
       "/posts/2022_11_06_duckdb_adventures/index.html",
