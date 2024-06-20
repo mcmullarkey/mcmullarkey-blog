@@ -15,15 +15,13 @@ engine: knitr
 
 [`mlcheck`](https://github.com/mcmullarkey/mlcheck){target="_blank"} exists because we're all human, and remembering to follow ML best practices is hard. Even when we already know what a good workflow looks like. Even when we've been coding for years. And especially when we think we don't need a quick double-check.
 
-`mlcheck` is a Rust-based command line tool that can programmatically check for the presence of ML best practices in coding documents. You can feed it a single file path:
+`mlcheck` is a Rust-based command line tool that can programmatically check for the presence of ML best practices in coding documents. You can feed it a single file path or a folder full of files
 
 ```{shell}
 
 # mlcheck --path path/to/your_file_name.py
 
 ```
-
-or a folder full of files
 
 ```{shell}
 
