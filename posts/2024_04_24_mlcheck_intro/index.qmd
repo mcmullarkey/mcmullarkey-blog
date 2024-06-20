@@ -37,13 +37,13 @@ Think of mlcheck as a spell-check equivalent for ML best practices. Spell-check 
 
 I primarily see this tool as a way to check myself. The idea for mlcheck came to me after I realized I'd forgotten to set a `random_state` to make my train/test split reproducible!
 
-And I would be lying if I said I wasn't curious how often these ML best practices get used in the wild. 
+And I was still curious how often these ML best practices get used in the wild. 
 
 So, I created a shell script to download a couple hundred+[^3] .py files from Github that contain "sklearn" 
 
 I used this pattern as a rough proxy for people implementing `scikit-learn` style Python code.
 
-After downloading all those files, I ran `mlcheck` on the entire directory with one command line call.
+After downloading all those files, I ran `mlcheck` on the entire folder with one command line call.
 
 Here's what `mlcheck`'s output looks like on the command line for a single file:
 
@@ -51,15 +51,15 @@ Here's what `mlcheck`'s output looks like on the command line for a single file:
 
 What were the results?
 
-First, this tool absolutely did not have to be in Rust[^4], but wow was this implementation fast.
+First, this tool absolutely did not *have* to be in Rust[^4], and wow was this implementation fast.
 
 According to [a SQL query](https://github.com/mcmullarkey/mlcheck_demo/blob/main/mlcheck_speed.sql){target="_blank"} on the database created by running the checks, `mlcheck` performed all the best practice checks across hundreds of files in 0.94 seconds.
 
 And best-practice usage was by no means universal. [Another SQL query](https://github.com/mcmullarkey/mlcheck_demo/blob/main/mlcheck_analytics.sql){target="_blank"} showed that while at least one file passed 100% of the best-practice checks, the average for checks passed was just 33.48%. 
 
-This average is even more remarkable when you consider the minimum percentage of checks passed was 20%. After all, one of the checks is whether sklearn is detected or not, and unless I messed up the original shell script this was guaranteed.
+This average is even more remarkable when you consider the minimum percentage of checks passed was 20%. After all, one of the checks is whether sklearn is detected or not, and unless I messed up the original shell script passing that check was guaranteed.
 
-I don't want to pretend this group of files is a representative sample, and people could have been using these code files in many situations where best practices might be unnecessary.
+I don't want to pretend this group of files is a representative sample, and people could use these code files in situations where best practices are unnecessary.
 
 And I know I've skipped past best practices because "I know what I'm doing!" I'm not alone in that boat.
 

@@ -193,10 +193,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="what-is-mlcheck-for" class="level1">
 <h1>What is mlcheck for?</h1>
 <p>I primarily see this tool as a way to check myself. The idea for mlcheck came to me after I realized I’d forgotten to set a <code>random_state</code> to make my train/test split reproducible!</p>
-<p>And I would be lying if I said I wasn’t curious how often these ML best practices get used in the wild.</p>
+<p>And I was still curious how often these ML best practices get used in the wild.</p>
 <p>So, I created a shell script to download a couple hundred+<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> .py files from Github that contain “sklearn”</p>
 <p>I used this pattern as a rough proxy for people implementing <code>scikit-learn</code> style Python code.</p>
-<p>After downloading all those files, I ran <code>mlcheck</code> on the entire directory with one command line call.</p>
+<p>After downloading all those files, I ran <code>mlcheck</code> on the entire folder with one command line call.</p>
 <p>Here’s what <code>mlcheck</code>’s output looks like on the command line for a single file:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -205,11 +205,11 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 <p>What were the results?</p>
-<p>First, this tool absolutely did not have to be in Rust<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, but wow was this implementation fast.</p>
+<p>First, this tool absolutely did not <em>have</em> to be in Rust<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, and wow was this implementation fast.</p>
 <p>According to <a href="https://github.com/mcmullarkey/mlcheck_demo/blob/main/mlcheck_speed.sql" target="_blank">a SQL query</a> on the database created by running the checks, <code>mlcheck</code> performed all the best practice checks across hundreds of files in 0.94 seconds.</p>
 <p>And best-practice usage was by no means universal. <a href="https://github.com/mcmullarkey/mlcheck_demo/blob/main/mlcheck_analytics.sql" target="_blank">Another SQL query</a> showed that while at least one file passed 100% of the best-practice checks, the average for checks passed was just 33.48%.</p>
-<p>This average is even more remarkable when you consider the minimum percentage of checks passed was 20%. After all, one of the checks is whether sklearn is detected or not, and unless I messed up the original shell script this was guaranteed.</p>
-<p>I don’t want to pretend this group of files is a representative sample, and people could have been using these code files in many situations where best practices might be unnecessary.</p>
+<p>This average is even more remarkable when you consider the minimum percentage of checks passed was 20%. After all, one of the checks is whether sklearn is detected or not, and unless I messed up the original shell script passing that check was guaranteed.</p>
+<p>I don’t want to pretend this group of files is a representative sample, and people could use these code files in situations where best practices are unnecessary.</p>
 <p>And I know I’ve skipped past best practices because “I know what I’m doing!” I’m not alone in that boat.</p>
 <p>If you’re interested in checking out the demo, the entire repo is <a href="https://github.com/mcmullarkey/mlcheck_demo" target="_blank">here</a></p>
 </section>
