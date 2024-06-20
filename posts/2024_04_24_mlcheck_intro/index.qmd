@@ -39,7 +39,7 @@ I primarily see this tool as a way to check myself. The idea for mlcheck came to
 
 And I was still curious how often these ML best practices get used in the wild. 
 
-So, I created a shell script to download a couple hundred+[^3] .py files from Github that contain "sklearn" 
+So, I created a bash script to download a couple hundred+[^3] .py files from Github that contain "sklearn" 
 
 I used this pattern as a rough proxy for people implementing `scikit-learn` style Python code.
 
